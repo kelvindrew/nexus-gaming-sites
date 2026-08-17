@@ -1,0 +1,300 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer base {
+  :root {
+    --bg-dark: #06080d;
+    --bg-surface: #0b0f17;
+    --bg-surface-elevated: #111723;
+    --border-subtle: rgba(255, 255, 255, 0.08);
+    --border-hover: rgba(255, 255, 255, 0.18);
+    --accent-blue: #0070d1;
+    --accent-cyan: #00d2ff;
+    --accent-emerald: #10b981;
+    --accent-purple: #8b5cf6;
+  }
+
+  body {
+    font-family: 'Plus Jakarta Sans', 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+    background-color: var(--bg-dark);
+    color: #f8fafc;
+    overflow-x: hidden;
+    -webkit-tap-highlight-color: transparent;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+    letter-spacing: -0.012em;
+  }
+
+  h1, h2, h3, h4, h5, h6, .font-heading {
+    font-family: 'Outfit', sans-serif;
+    letter-spacing: -0.025em;
+  }
+
+  .font-cyber {
+    font-family: 'Plus Jakarta Sans', sans-serif;
+    letter-spacing: 0.02em;
+  }
+
+  /* Smooth momentum scrolling */
+  * {
+    -webkit-overflow-scrolling: touch;
+    outline-color: rgba(0, 112, 209, 0.4);
+  }
+
+  /* Safe Area Insets for modern phones */
+  .pb-safe {
+    padding-bottom: max(env(safe-area-inset-bottom, 1rem), 1rem);
+  }
+}
+
+/* ==========================================================================
+   LUXURY APPLE DARK / PS5 MATTE GLASSMORPHISM
+   ========================================================================== */
+
+.glass-luxury {
+  background: rgba(11, 15, 23, 0.72);
+  backdrop-filter: blur(24px);
+  -webkit-backdrop-filter: blur(24px);
+  border: 1px solid rgba(255, 255, 255, 0.08);
+  box-shadow: 
+    0 10px 40px -10px rgba(0, 0, 0, 0.6),
+    inset 0 1px 0 rgba(255, 255, 255, 0.08);
+}
+
+.glass-panel {
+  background: rgba(12, 17, 26, 0.75);
+  backdrop-filter: blur(20px);
+  -webkit-backdrop-filter: blur(20px);
+  border: 1px solid rgba(255, 255, 255, 0.08);
+  box-shadow: 
+    0 4px 20px -2px rgba(0, 0, 0, 0.4),
+    inset 0 1px 0 rgba(255, 255, 255, 0.06);
+}
+
+.glass-panel-hover {
+  transition: all 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+.glass-panel-hover:hover {
+  background: rgba(18, 24, 38, 0.88);
+  border-color: rgba(255, 255, 255, 0.18);
+  box-shadow: 
+    0 16px 40px -10px rgba(0, 0, 0, 0.6),
+    inset 0 1px 0 rgba(255, 255, 255, 0.12);
+  transform: translateY(-3px);
+}
+
+.glass-card-neon, .glass-card-matte {
+  position: relative;
+  background: rgba(11, 15, 24, 0.75);
+  backdrop-filter: blur(16px);
+  border: 1px solid rgba(255, 255, 255, 0.07);
+  box-shadow: 0 10px 30px -5px rgba(0, 0, 0, 0.5);
+  transition: all 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+.glass-card-neon:hover, .glass-card-matte:hover {
+  border-color: rgba(255, 255, 255, 0.2);
+  background: rgba(15, 21, 34, 0.85);
+  box-shadow: 
+    0 20px 45px -10px rgba(0, 0, 0, 0.7),
+    0 0 25px rgba(0, 112, 209, 0.12);
+}
+
+.glass-pill {
+  background: rgba(255, 255, 255, 0.05);
+  backdrop-filter: blur(12px);
+  border: 1px solid rgba(255, 255, 255, 0.08);
+  transition: all 0.2s ease;
+}
+
+.glass-pill:hover {
+  background: rgba(255, 255, 255, 0.1);
+  border-color: rgba(255, 255, 255, 0.18);
+}
+
+.glass-input {
+  background: rgba(8, 12, 20, 0.8);
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  backdrop-filter: blur(12px);
+  transition: all 0.2s ease;
+}
+
+.glass-input:focus {
+  background: rgba(12, 17, 28, 0.95);
+  border-color: rgba(0, 112, 209, 0.6);
+  box-shadow: 0 0 0 3px rgba(0, 112, 209, 0.15);
+  outline: none;
+}
+
+/* ==========================================================================
+   PREMIUM BUTTON SYSTEM (Apple Pro / PS5 Luxury)
+   ========================================================================== */
+
+/* 1. Primary Button (Solid Luminous White / Cobalt) */
+.btn-cyber-primary, .btn-solid-primary, .btn-ps-primary {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.5rem;
+  background: #ffffff;
+  color: #05070b;
+  font-weight: 700;
+  border: 1px solid rgba(255, 255, 255, 0.9);
+  box-shadow: 
+    0 4px 20px rgba(255, 255, 255, 0.2),
+    0 1px 3px rgba(0, 0, 0, 0.3);
+  transition: all 0.25s cubic-bezier(0.16, 1, 0.3, 1);
+  user-select: none;
+}
+
+.btn-cyber-primary:hover, .btn-solid-primary:hover, .btn-ps-primary:hover {
+  background: #f1f5f9;
+  transform: translateY(-2px);
+  box-shadow: 
+    0 8px 30px rgba(255, 255, 255, 0.35),
+    0 2px 6px rgba(0, 0, 0, 0.4);
+}
+
+.btn-cyber-primary:active, .btn-solid-primary:active, .btn-ps-primary:active {
+  transform: translateY(0) scale(0.98);
+}
+
+/* 2. WhatsApp Modern Luxury Button */
+.btn-whatsapp, .btn-whatsapp-modern {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.5rem;
+  background: linear-gradient(135deg, #10b981 0%, #059669 100%);
+  color: #ffffff;
+  font-weight: 700;
+  border: 1px solid rgba(255, 255, 255, 0.2);
+  box-shadow: 
+    0 4px 20px rgba(16, 185, 129, 0.3),
+    0 1px 2px rgba(0, 0, 0, 0.2);
+  transition: all 0.25s cubic-bezier(0.16, 1, 0.3, 1);
+  user-select: none;
+}
+
+.btn-whatsapp:hover, .btn-whatsapp-modern:hover {
+  background: linear-gradient(135deg, #34d399 0%, #10b981 100%);
+  transform: translateY(-2px);
+  box-shadow: 
+    0 8px 25px rgba(16, 185, 129, 0.45),
+    0 2px 5px rgba(0, 0, 0, 0.3);
+}
+
+.btn-whatsapp:active, .btn-whatsapp-modern:active {
+  transform: translateY(0) scale(0.98);
+}
+
+/* 3. Secondary Translucent Glass Button */
+.btn-cyber-outline, .btn-glass, .btn-secondary-glass {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.5rem;
+  background: rgba(255, 255, 255, 0.05);
+  color: #f8fafc;
+  font-weight: 600;
+  border: 1px solid rgba(255, 255, 255, 0.12);
+  backdrop-filter: blur(12px);
+  box-shadow: 0 2px 10px rgba(0, 0, 0, 0.3);
+  transition: all 0.25s cubic-bezier(0.16, 1, 0.3, 1);
+  user-select: none;
+}
+
+.btn-cyber-outline:hover, .btn-glass:hover, .btn-secondary-glass:hover {
+  background: rgba(255, 255, 255, 0.12);
+  border-color: rgba(255, 255, 255, 0.25);
+  color: #ffffff;
+  transform: translateY(-2px);
+  box-shadow: 0 6px 20px rgba(0, 0, 0, 0.4);
+}
+
+.btn-cyber-outline:active, .btn-glass:active, .btn-secondary-glass:active {
+  transform: translateY(0) scale(0.98);
+}
+
+/* 4. Purple Luxury Button */
+.btn-cyber-purple {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.5rem;
+  background: linear-gradient(135deg, #7c3aed 0%, #6d28d9 100%);
+  color: #ffffff;
+  font-weight: 700;
+  border: 1px solid rgba(255, 255, 255, 0.2);
+  box-shadow: 0 4px 20px rgba(124, 58, 237, 0.35);
+  transition: all 0.25s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+.btn-cyber-purple:hover {
+  background: linear-gradient(135deg, #8b5cf6 0%, #7c3aed 100%);
+  transform: translateY(-2px);
+  box-shadow: 0 8px 25px rgba(139, 92, 246, 0.5);
+}
+
+/* ==========================================================================
+   STREAMLINED SCROLLBAR & ANIMATIONS
+   ========================================================================== */
+
+/* Custom Clean Scrollbar */
+::-webkit-scrollbar {
+  width: 6px;
+  height: 6px;
+}
+
+::-webkit-scrollbar-track {
+  background: #06080d;
+}
+
+::-webkit-scrollbar-thumb {
+  background: rgba(255, 255, 255, 0.15);
+  border-radius: 9999px;
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: rgba(255, 255, 255, 0.3);
+}
+
+/* Hide scrollbar utility */
+.no-scrollbar::-webkit-scrollbar {
+  display: none;
+}
+.no-scrollbar {
+  -ms-overflow-style: none;
+  scrollbar-width: none;
+}
+
+/* Keyframes */
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+    transform: translateY(8px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@keyframes pulseSubtle {
+  0%, 100% {
+    opacity: 1;
+  }
+  50% {
+    opacity: 0.5;
+  }
+}
+
+.animate-fadeIn {
+  animation: fadeIn 0.35s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+}
+
+.animate-pulseSubtle {
+  animation: pulseSubtle 3s ease-in-out infinite;
+}

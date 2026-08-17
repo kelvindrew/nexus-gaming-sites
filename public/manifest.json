@@ -1,0 +1,21 @@
+{
+  "name": "NEXUS GAMING Services",
+  "short_name": "NexusGaming",
+  "description": "Services console premium, modification, optimisation et jeux légaux.",
+  "start_url": "/",
+  "display": "standalone",
+  "background_color": "#080b10",
+  "theme_color": "#00f0ff",
+  "icons": [
+    {
+      "src": "data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 512 512'><rect width='512' height='512' fill='%23080b10'/><path d='M160 160h192v192H160z' fill='%2300f0ff'/></svg>",
+      "sizes": "192x192",
+      "type": "image/svg+xml"
+    },
+    {
+      "src": "data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 512 512'><rect width='512' height='512' fill='%23080b10'/><path d='M160 160h192v192H160z' fill='%2300f0ff'/></svg>",
+      "sizes": "512x512",
+      "type": "image/svg+xml"
+    }
+  ]
+}
