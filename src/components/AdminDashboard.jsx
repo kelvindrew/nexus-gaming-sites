@@ -815,31 +815,37 @@ export default function AdminDashboard({
         </div>
 
         {/* Admin Navigation Tabs */}
-        <div className="flex items-center gap-1.5 sm:gap-2 px-3 sm:px-6 pt-2 sm:pt-4 bg-slate-900/60 border-b border-slate-800 text-xs font-bold overflow-x-auto no-scrollbar">
+        <div className="flex items-center gap-2 p-3 sm:px-6 sm:py-3.5 bg-slate-950/90 border-b border-slate-800 text-xs sm:text-sm font-bold overflow-x-auto custom-scrollbar shrink-0 shadow-inner">
           <button
             onClick={() => { setActiveTab('slides'); setEditingSlide(null); }}
-            className={`px-3 sm:px-4 py-2.5 sm:py-3 rounded-t-xl flex items-center gap-1.5 whitespace-nowrap transition-all shrink-0 ${
-              activeTab === 'slides' ? 'bg-[#090d16] text-cyan-400 border-t-2 border-cyan-400' : 'text-slate-400 hover:text-white'
+            className={`px-3.5 py-2 sm:px-4 sm:py-2.5 rounded-xl flex items-center gap-2 whitespace-nowrap transition-all shrink-0 border ${
+              activeTab === 'slides' 
+                ? 'bg-cyan-500/20 text-cyan-300 border-cyan-400/60 shadow-[0_0_12px_rgba(0,240,255,0.25)] scale-[1.02]' 
+                : 'bg-slate-900/80 text-slate-400 border-slate-800 hover:text-white hover:border-slate-700'
             }`}
           >
-            <Tv className="w-3.5 h-3.5" />
+            <Tv className="w-4 h-4 text-cyan-400" />
             <span>Hero ({heroSlides.length})</span>
           </button>
 
           <button
             onClick={() => { setActiveTab('games'); setEditingGame(null); }}
-            className={`px-4 py-3 rounded-t-xl flex items-center gap-2 transition-all shrink-0 ${
-              activeTab === 'games' ? 'bg-[#090d16] text-purple-400 border-t-2 border-purple-400' : 'text-slate-400 hover:text-white'
+            className={`px-3.5 py-2 sm:px-4 sm:py-2.5 rounded-xl flex items-center gap-2 whitespace-nowrap transition-all shrink-0 border ${
+              activeTab === 'games' 
+                ? 'bg-purple-500/20 text-purple-300 border-purple-400/60 shadow-[0_0_12px_rgba(168,85,247,0.25)] scale-[1.02]' 
+                : 'bg-slate-900/80 text-slate-400 border-slate-800 hover:text-white hover:border-slate-700'
             }`}
           >
-            <Gamepad2 className="w-4 h-4" />
+            <Gamepad2 className="w-4 h-4 text-purple-400" />
             <span>Jeux ({games.length})</span>
           </button>
 
           <button
             onClick={() => { setActiveTab('deals'); setEditingDeal(null); }}
-            className={`px-4 py-3 rounded-t-xl flex items-center gap-2 transition-all shrink-0 ${
-              activeTab === 'deals' ? 'bg-[#090d16] text-rose-400 border-t-2 border-rose-400' : 'text-slate-400 hover:text-white'
+            className={`px-3.5 py-2 sm:px-4 sm:py-2.5 rounded-xl flex items-center gap-2 whitespace-nowrap transition-all shrink-0 border ${
+              activeTab === 'deals' 
+                ? 'bg-rose-500/20 text-rose-300 border-rose-400/60 shadow-[0_0_12px_rgba(244,63,94,0.25)] scale-[1.02]' 
+                : 'bg-slate-900/80 text-slate-400 border-slate-800 hover:text-white hover:border-slate-700'
             }`}
           >
             <Flame className="w-4 h-4 text-rose-500" />
@@ -848,61 +854,73 @@ export default function AdminDashboard({
 
           <button
             onClick={() => { setActiveTab('consoles'); setEditingConsole(null); }}
-            className={`px-4 py-3 rounded-t-xl flex items-center gap-2 transition-all shrink-0 ${
-              activeTab === 'consoles' ? 'bg-[#090d16] text-blue-400 border-t-2 border-blue-400' : 'text-slate-400 hover:text-white'
+            className={`px-3.5 py-2 sm:px-4 sm:py-2.5 rounded-xl flex items-center gap-2 whitespace-nowrap transition-all shrink-0 border ${
+              activeTab === 'consoles' 
+                ? 'bg-blue-500/20 text-blue-300 border-blue-400/60 shadow-[0_0_12px_rgba(59,130,246,0.25)] scale-[1.02]' 
+                : 'bg-slate-900/80 text-slate-400 border-slate-800 hover:text-white hover:border-slate-700'
             }`}
           >
-            <HardDrive className="w-4 h-4" />
+            <HardDrive className="w-4 h-4 text-blue-400" />
             <span>Équipements ({consoles.length})</span>
           </button>
 
           <button
             onClick={() => { setActiveTab('services'); setEditingService(null); }}
-            className={`px-4 py-3 rounded-t-xl flex items-center gap-2 transition-all shrink-0 ${
-              activeTab === 'services' ? 'bg-[#090d16] text-emerald-400 border-t-2 border-emerald-400' : 'text-slate-400 hover:text-white'
+            className={`px-3.5 py-2 sm:px-4 sm:py-2.5 rounded-xl flex items-center gap-2 whitespace-nowrap transition-all shrink-0 border ${
+              activeTab === 'services' 
+                ? 'bg-emerald-500/20 text-emerald-300 border-emerald-400/60 shadow-[0_0_12px_rgba(16,185,129,0.25)] scale-[1.02]' 
+                : 'bg-slate-900/80 text-slate-400 border-slate-800 hover:text-white hover:border-slate-700'
             }`}
           >
-            <Wrench className="w-4 h-4" />
+            <Wrench className="w-4 h-4 text-emerald-400" />
             <span>Services ({services.length})</span>
           </button>
 
           <button
             onClick={() => { setActiveTab('faqs'); setEditingFaq(null); }}
-            className={`px-4 py-3 rounded-t-xl flex items-center gap-2 transition-all shrink-0 ${
-              activeTab === 'faqs' ? 'bg-[#090d16] text-amber-400 border-t-2 border-amber-400' : 'text-slate-400 hover:text-white'
+            className={`px-3.5 py-2 sm:px-4 sm:py-2.5 rounded-xl flex items-center gap-2 whitespace-nowrap transition-all shrink-0 border ${
+              activeTab === 'faqs' 
+                ? 'bg-amber-500/20 text-amber-300 border-amber-400/60 shadow-[0_0_12px_rgba(245,158,11,0.25)] scale-[1.02]' 
+                : 'bg-slate-900/80 text-slate-400 border-slate-800 hover:text-white hover:border-slate-700'
             }`}
           >
-            <HelpCircle className="w-4 h-4" />
+            <HelpCircle className="w-4 h-4 text-amber-400" />
             <span>FAQ ({faqs.length})</span>
           </button>
 
           <button
             onClick={() => { setActiveTab('reviews'); setEditingReview(null); }}
-            className={`px-4 py-3 rounded-t-xl flex items-center gap-2 transition-all shrink-0 ${
-              activeTab === 'reviews' ? 'bg-[#090d16] text-yellow-400 border-t-2 border-yellow-400' : 'text-slate-400 hover:text-white'
+            className={`px-3.5 py-2 sm:px-4 sm:py-2.5 rounded-xl flex items-center gap-2 whitespace-nowrap transition-all shrink-0 border ${
+              activeTab === 'reviews' 
+                ? 'bg-yellow-500/20 text-yellow-300 border-yellow-400/60 shadow-[0_0_12px_rgba(234,179,8,0.25)] scale-[1.02]' 
+                : 'bg-slate-900/80 text-slate-400 border-slate-800 hover:text-white hover:border-slate-700'
             }`}
           >
-            <Star className="w-4 h-4" />
+            <Star className="w-4 h-4 text-yellow-400" />
             <span>Avis ({reviews.length})</span>
           </button>
 
           <button
             onClick={() => setActiveTab('messages')}
-            className={`px-4 py-3 rounded-t-xl flex items-center gap-2 transition-all shrink-0 ${
-              activeTab === 'messages' ? 'bg-[#090d16] text-rose-400 border-t-2 border-rose-400' : 'text-slate-400 hover:text-white'
+            className={`px-3.5 py-2 sm:px-4 sm:py-2.5 rounded-xl flex items-center gap-2 whitespace-nowrap transition-all shrink-0 border ${
+              activeTab === 'messages' 
+                ? 'bg-rose-500/20 text-rose-300 border-rose-400/60 shadow-[0_0_12px_rgba(244,63,94,0.25)] scale-[1.02]' 
+                : 'bg-slate-900/80 text-slate-400 border-slate-800 hover:text-white hover:border-slate-700'
             }`}
           >
-            <MessageSquare className="w-4 h-4" />
+            <MessageSquare className="w-4 h-4 text-rose-400" />
             <span>Messages ({messages.length})</span>
           </button>
 
           <button
             onClick={() => setActiveTab('config')}
-            className={`px-4 py-3 rounded-t-xl flex items-center gap-2 transition-all shrink-0 ${
-              activeTab === 'config' ? 'bg-[#090d16] text-emerald-300 border-t-2 border-emerald-300' : 'text-slate-400 hover:text-white'
+            className={`px-3.5 py-2 sm:px-4 sm:py-2.5 rounded-xl flex items-center gap-2 whitespace-nowrap transition-all shrink-0 border ${
+              activeTab === 'config' 
+                ? 'bg-teal-500/20 text-teal-300 border-teal-400/60 shadow-[0_0_12px_rgba(20,184,166,0.25)] scale-[1.02]' 
+                : 'bg-slate-900/80 text-slate-400 border-slate-800 hover:text-white hover:border-slate-700'
             }`}
           >
-            <PhoneCall className="w-4 h-4" />
+            <PhoneCall className="w-4 h-4 text-teal-300" />
             <span>Contact & Site</span>
           </button>
         </div>
