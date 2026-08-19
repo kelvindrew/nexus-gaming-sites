@@ -11,19 +11,19 @@ import {
 } from './initialData.js';
 
 const STORAGE_KEYS = {
-  GAMES: 'nexus_games_v22',
-  SERVICES: 'nexus_services_v22',
-  CONSOLES: 'nexus_consoles_v22',
-  PACKS: 'nexus_packs_v22',
-  CONFIG: 'nexus_config_v22',
-  FAVORITES: 'nexus_favorites_v22',
-  RECENTLY_VIEWED: 'nexus_recently_viewed_v22',
-  MESSAGES: 'nexus_admin_messages_v22',
-  HERO_SLIDES: 'nexus_hero_slides_v22',
-  FAQS: 'nexus_faqs_v22',
-  REVIEWS: 'nexus_reviews_v22',
-  FLASH_DEALS: 'nexus_flash_deals_v22',
-  CART: 'nexus_cart_v22'
+  GAMES: 'nexus_games_v23',
+  SERVICES: 'nexus_services_v23',
+  CONSOLES: 'nexus_consoles_v23',
+  PACKS: 'nexus_packs_v23',
+  CONFIG: 'nexus_config_v23',
+  FAVORITES: 'nexus_favorites_v23',
+  RECENTLY_VIEWED: 'nexus_recently_viewed_v23',
+  MESSAGES: 'nexus_admin_messages_v23',
+  HERO_SLIDES: 'nexus_hero_slides_v23',
+  FAQS: 'nexus_faqs_v23',
+  REVIEWS: 'nexus_reviews_v23',
+  FLASH_DEALS: 'nexus_flash_deals_v23',
+  CART: 'nexus_cart_v23'
 };
 
 // Clear legacy caches if present

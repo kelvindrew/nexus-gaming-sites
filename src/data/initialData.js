@@ -261,15 +261,44 @@ export const INITIAL_SERVICES = [
 ];
 
 export const getDefaultPcRequirements = (game) => {
-  if (game?.pcRequirements) return game.pcRequirements;
-  
   const title = (game?.title || '').toLowerCase();
   const size = game?.size || '70 GB';
   const year = game?.year || 2024;
+  const isHighEnd = year >= 2023 || (game?.popularity || 90) >= 95;
+
+  let baseRequirements = {
+    minimum: {
+      resolution: '1080p @ 30 FPS (Paramètres Bas / Équilibré)',
+      os: 'Windows 10 64-bit (Version 21H2 ou ultérieure)',
+      cpu: isHighEnd ? 'Intel Core i5-8400 / AMD Ryzen 5 1600' : 'Intel Core i5-4460 / AMD FX-6300',
+      gpu: isHighEnd ? 'NVIDIA GeForce GTX 1060 (6GB) / AMD Radeon RX 580 (8GB)' : 'NVIDIA GeForce GTX 960 (4GB) / AMD RX 470',
+      ram: isHighEnd ? '16 GB RAM' : '8 GB RAM',
+      storage: `${size} d'espace disponible (SSD recommandé)`,
+      directx: 'DirectX 12'
+    },
+    recommended: {
+      resolution: '1080p / 1440p @ 60 FPS (Paramètres Élevés)',
+      os: 'Windows 10 / 11 64-bit',
+      cpu: isHighEnd ? 'Intel Core i7-9700 / AMD Ryzen 5 5600X' : 'Intel Core i7-7700K / AMD Ryzen 5 3600',
+      gpu: isHighEnd ? 'NVIDIA GeForce RTX 3060 (12GB) / AMD Radeon RX 6700 XT (12GB)' : 'NVIDIA GeForce RTX 2060 (6GB) / AMD RX 5600 XT',
+      ram: '16 GB RAM Haute Vitesse Dual-Channel',
+      storage: `${size} d'espace SSD NVMe M.2 requis`,
+      directx: 'DirectX 12'
+    },
+    ultra: {
+      resolution: '4K 2160p @ 60+ FPS (Ultra Ray-Tracing / DLSS 3.5 & FSR 3)',
+      os: 'Windows 11 64-bit avec DirectStorage',
+      cpu: 'Intel Core i7-14700K / AMD Ryzen 7 7800X3D',
+      gpu: 'NVIDIA GeForce RTX 4080 / 4090 (16GB+) / AMD Radeon RX 7900 XTX',
+      ram: '32 GB RAM DDR5',
+      storage: `${size} d'espace SSD NVMe Gen4 Ultra-Rapide`,
+      directx: 'DirectX 12 Ultimate'
+    }
+  };
 
   // Custom official specs for famous blockbusters
   if (title.includes('black myth') || title.includes('wukong')) {
-    return {
+    baseRequirements = {
       minimum: {
         resolution: '1080p @ 30 FPS (Low Settings / FSR)',
         os: 'Windows 10 / 11 64-bit',
@@ -298,10 +327,8 @@ export const getDefaultPcRequirements = (game) => {
         directx: 'DirectX 12 Ultimate'
       }
     };
-  }
-
-  if (title.includes('cyberpunk')) {
-    return {
+  } else if (title.includes('cyberpunk')) {
+    baseRequirements = {
       minimum: {
         resolution: '1080p @ 30 FPS (Low Settings)',
         os: 'Windows 10 64-bit',
@@ -330,10 +357,8 @@ export const getDefaultPcRequirements = (game) => {
         directx: 'DirectX 12 Ultimate'
       }
     };
-  }
-
-  if (title.includes('gta') || title.includes('grand theft auto')) {
-    return {
+  } else if (title.includes('gta') || title.includes('grand theft auto')) {
+    baseRequirements = {
       minimum: {
         resolution: '720p / 1080p @ 30 FPS (Normal)',
         os: 'Windows 10 64-bit',
@@ -362,10 +387,8 @@ export const getDefaultPcRequirements = (game) => {
         directx: 'DirectX 12'
       }
     };
-  }
-
-  if (title.includes('fc 24') || title.includes('fc 25') || title.includes('fifa')) {
-    return {
+  } else if (title.includes('fc 24') || title.includes('fc 25') || title.includes('fifa')) {
+    baseRequirements = {
       minimum: {
         resolution: '1080p @ 30-60 FPS (Low/Medium)',
         os: 'Windows 10 64-bit',
@@ -396,37 +419,16 @@ export const getDefaultPcRequirements = (game) => {
     };
   }
 
-  const isHighEnd = year >= 2023 || (game?.popularity || 90) >= 95;
+  // Merge any custom game.pcRequirements safely
+  if (game?.pcRequirements && typeof game.pcRequirements === 'object') {
+    return {
+      minimum: { ...baseRequirements.minimum, ...(game.pcRequirements.minimum || {}) },
+      recommended: { ...baseRequirements.recommended, ...(game.pcRequirements.recommended || {}) },
+      ultra: { ...baseRequirements.ultra, ...(game.pcRequirements.ultra || {}) }
+    };
+  }
 
-  return {
-    minimum: {
-      resolution: '1080p @ 30 FPS (Paramètres Bas / Équilibré)',
-      os: 'Windows 10 64-bit (Version 21H2 ou ultérieure)',
-      cpu: isHighEnd ? 'Intel Core i5-8400 / AMD Ryzen 5 1600' : 'Intel Core i5-4460 / AMD FX-6300',
-      gpu: isHighEnd ? 'NVIDIA GeForce GTX 1060 (6GB) / AMD Radeon RX 580 (8GB)' : 'NVIDIA GeForce GTX 960 (4GB) / AMD RX 470',
-      ram: isHighEnd ? '16 GB RAM' : '8 GB RAM',
-      storage: `${size} d'espace disponible (SSD recommandé)`,
-      directx: 'DirectX 12'
-    },
-    recommended: {
-      resolution: '1080p / 1440p @ 60 FPS (Paramètres Élevés)',
-      os: 'Windows 10 / 11 64-bit',
-      cpu: isHighEnd ? 'Intel Core i7-9700 / AMD Ryzen 5 5600X' : 'Intel Core i7-7700K / AMD Ryzen 5 3600',
-      gpu: isHighEnd ? 'NVIDIA GeForce RTX 3060 (12GB) / AMD Radeon RX 6700 XT (12GB)' : 'NVIDIA GeForce RTX 2060 (6GB) / AMD RX 5600 XT',
-      ram: '16 GB RAM Haute Vitesse Dual-Channel',
-      storage: `${size} d'espace SSD NVMe M.2 requis`,
-      directx: 'DirectX 12'
-    },
-    ultra: {
-      resolution: '4K 2160p @ 60+ FPS (Ultra Ray-Tracing / DLSS 3.5 & FSR 3)',
-      os: 'Windows 11 64-bit avec DirectStorage',
-      cpu: 'Intel Core i7-14700K / AMD Ryzen 7 7800X3D',
-      gpu: 'NVIDIA GeForce RTX 4080 / 4090 (16GB+) / AMD Radeon RX 7900 XTX',
-      ram: '32 GB RAM DDR5',
-      storage: `${size} d'espace SSD NVMe Gen4 Ultra-Rapide`,
-      directx: 'DirectX 12 Ultimate'
-    }
-  };
+  return baseRequirements;
 };
 
 import { MASSIVE_GAMES_CATALOG } from './massiveGameDatabase.js';

@@ -41,10 +41,10 @@ export default function GameDetailModal({
 
   if (!game) return null;
 
-  const pcSpecs = game.pcRequirements || getDefaultPcRequirements(game);
+  const pcSpecs = getDefaultPcRequirements(game);
   const isPcCompatible = Array.isArray(game.platforms) 
-    ? game.platforms.some(p => p.toLowerCase().includes('pc')) 
-    : String(game.platforms).toLowerCase().includes('pc');
+    ? game.platforms.some(p => p && p.toLowerCase().includes('pc')) 
+    : String(game.platforms || '').toLowerCase().includes('pc');
 
   const screenshotsList = game.screenshots && game.screenshots.length > 0 
     ? game.screenshots 
@@ -70,8 +70,8 @@ export default function GameDetailModal({
   };
 
   // Filter similar games
-  const similarGames = allGames
-    .filter(g => g.id !== game.id && (g.genre === game.genre || (Array.isArray(g.platforms) && g.platforms.some(p => (Array.isArray(game.platforms) ? game.platforms.includes(p) : true)))))
+  const similarGames = (allGames || [])
+    .filter(g => g && g.id !== game.id && (g.genre === game.genre || (Array.isArray(g.platforms) && g.platforms.some(p => (Array.isArray(game.platforms) ? game.platforms.includes(p) : true)))))
     .slice(0, 4);
 
   const handleWhatsAppClick = () => {
@@ -92,7 +92,15 @@ export default function GameDetailModal({
     window.open(`https://wa.me/${cleanPhone}?text=${text}`, '_blank');
   };
 
-  const currentTierSpec = pcSpecs[selectedPcTier] || pcSpecs.recommended || pcSpecs.minimum;
+  const currentTierSpec = pcSpecs?.[selectedPcTier] || pcSpecs?.recommended || pcSpecs?.minimum || {
+    resolution: '1080p @ 60 FPS',
+    os: 'Windows 10 / 11 64-bit',
+    cpu: 'Intel Core i7 / AMD Ryzen 5',
+    gpu: 'NVIDIA GeForce RTX 3060 / AMD RX 6700 XT',
+    ram: '16 GB RAM',
+    storage: 'SSD Recommandé',
+    directx: 'DirectX 12'
+  };
 
   return (
     <div className="fixed inset-0 z-50 flex items-end sm:items-center justify-center p-0 sm:p-4 md:p-6 bg-black/85 backdrop-blur-xl animate-fadeIn">
