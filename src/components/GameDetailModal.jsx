@@ -1,5 +1,9 @@
 import React, { useState, useEffect } from 'react';
-import { X, Gamepad2, Star, HardDrive, Calendar, ShieldCheck, Heart, MessageSquare, CheckCircle2, Play, Sparkles, Cpu, Monitor, Zap, Layers } from 'lucide-react';
+import { 
+  X, Gamepad2, Star, HardDrive, Calendar, ShieldCheck, Heart, 
+  MessageSquare, CheckCircle2, Play, Sparkles, Cpu, Monitor, 
+  Zap, Layers, Camera, ChevronLeft, ChevronRight 
+} from 'lucide-react';
 import { getDefaultPcRequirements } from '../data/initialData.js';
 
 export default function GameDetailModal({ 
