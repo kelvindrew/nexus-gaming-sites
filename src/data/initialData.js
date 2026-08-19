@@ -261,8 +261,142 @@ export const INITIAL_SERVICES = [
 ];
 
 export const getDefaultPcRequirements = (game) => {
-  const size = game.size || '70 GB';
-  const isHighEnd = (game.year || 2024) >= 2023 || (game.popularity || 90) >= 95;
+  if (game?.pcRequirements) return game.pcRequirements;
+  
+  const title = (game?.title || '').toLowerCase();
+  const size = game?.size || '70 GB';
+  const year = game?.year || 2024;
+
+  // Custom official specs for famous blockbusters
+  if (title.includes('black myth') || title.includes('wukong')) {
+    return {
+      minimum: {
+        resolution: '1080p @ 30 FPS (Low Settings / FSR)',
+        os: 'Windows 10 / 11 64-bit',
+        cpu: 'Intel Core i5-8400 / AMD Ryzen 5 1600',
+        gpu: 'NVIDIA GeForce GTX 1060 (6GB) / AMD Radeon RX 580 (8GB)',
+        ram: '16 GB RAM',
+        storage: '130 GB d\'espace SSD requis',
+        directx: 'DirectX 12'
+      },
+      recommended: {
+        resolution: '1080p @ 60 FPS (Medium/High Settings)',
+        os: 'Windows 10 / 11 64-bit',
+        cpu: 'Intel Core i7-9700 / AMD Ryzen 5 5500',
+        gpu: 'NVIDIA GeForce RTX 2060 / RTX 3060 / AMD Radeon RX 5700 XT',
+        ram: '16 GB RAM Dual-Channel',
+        storage: '130 GB SSD M.2 NVMe',
+        directx: 'DirectX 12'
+      },
+      ultra: {
+        resolution: '4K @ 60 FPS (Ultra Full Ray-Tracing / DLSS 3.5 Frame Gen)',
+        os: 'Windows 11 64-bit DirectStorage',
+        cpu: 'Intel Core i7-14700K / AMD Ryzen 7 7800X3D',
+        gpu: 'NVIDIA GeForce RTX 4080 Super (16GB) / RTX 4090',
+        ram: '32 GB RAM DDR5',
+        storage: '130 GB SSD NVMe Gen4',
+        directx: 'DirectX 12 Ultimate'
+      }
+    };
+  }
+
+  if (title.includes('cyberpunk')) {
+    return {
+      minimum: {
+        resolution: '1080p @ 30 FPS (Low Settings)',
+        os: 'Windows 10 64-bit',
+        cpu: 'Intel Core i7-6700 / AMD Ryzen 5 1600',
+        gpu: 'NVIDIA GeForce GTX 1060 (6GB) / AMD Radeon RX 580',
+        ram: '12 GB RAM',
+        storage: '75 GB SSD requis',
+        directx: 'DirectX 12'
+      },
+      recommended: {
+        resolution: '1080p / 1440p @ 60 FPS (High Settings)',
+        os: 'Windows 10 / 11 64-bit',
+        cpu: 'Intel Core i7-12700 / AMD Ryzen 7 7800X',
+        gpu: 'NVIDIA GeForce RTX 2060 Super / RTX 3060 (12GB) / RX 5700 XT',
+        ram: '16 GB RAM Dual-Channel',
+        storage: '75 GB SSD NVMe',
+        directx: 'DirectX 12'
+      },
+      ultra: {
+        resolution: '4K @ 60+ FPS (Ray Tracing Overdrive / Path Tracing)',
+        os: 'Windows 11 64-bit',
+        cpu: 'Intel Core i9-13900K / AMD Ryzen 7 7800X3D',
+        gpu: 'NVIDIA GeForce RTX 4080 / RTX 4090 (24GB)',
+        ram: '32 GB RAM DDR5',
+        storage: '75 GB SSD NVMe Gen4',
+        directx: 'DirectX 12 Ultimate'
+      }
+    };
+  }
+
+  if (title.includes('gta') || title.includes('grand theft auto')) {
+    return {
+      minimum: {
+        resolution: '720p / 1080p @ 30 FPS (Normal)',
+        os: 'Windows 10 64-bit',
+        cpu: 'Intel Core 2 Quad Q6600 / AMD Phenom 9850',
+        gpu: 'NVIDIA GeForce 9800 GT 1GB / AMD HD 4870 1GB',
+        ram: '4 GB RAM (8 GB Recommandés)',
+        storage: '110 GB d\'espace disque',
+        directx: 'DirectX 10 / 11'
+      },
+      recommended: {
+        resolution: '1080p @ 60 FPS (Very High 60FPS)',
+        os: 'Windows 10 / 11 64-bit',
+        cpu: 'Intel Core i5-3470 / AMD FX-8350',
+        gpu: 'NVIDIA GeForce GTX 1650 4GB / GTX 1060 / AMD RX 580',
+        ram: '8 GB - 16 GB RAM',
+        storage: '110 GB SSD Recommandé',
+        directx: 'DirectX 11'
+      },
+      ultra: {
+        resolution: '4K @ 60+ FPS (Ultra Settings + NVE & QuantV Mods 4K)',
+        os: 'Windows 11 64-bit',
+        cpu: 'Intel Core i7-10700K / AMD Ryzen 7 5800X',
+        gpu: 'NVIDIA GeForce RTX 3070 / RTX 4070 (12GB) / RX 6800 XT',
+        ram: '16 GB - 32 GB RAM',
+        storage: '110 GB SSD NVMe M.2',
+        directx: 'DirectX 12'
+      }
+    };
+  }
+
+  if (title.includes('fc 24') || title.includes('fc 25') || title.includes('fifa')) {
+    return {
+      minimum: {
+        resolution: '1080p @ 30-60 FPS (Low/Medium)',
+        os: 'Windows 10 64-bit',
+        cpu: 'Intel Core i5-6600K / AMD Ryzen 5 1600',
+        gpu: 'NVIDIA GeForce GTX 1050 Ti (4GB) / AMD Radeon RX 570 (4GB)',
+        ram: '8 GB RAM',
+        storage: '100 GB d\'espace disque',
+        directx: 'DirectX 12'
+      },
+      recommended: {
+        resolution: '1080p / 1440p @ 60-120 FPS (Ultra 60FPS)',
+        os: 'Windows 10 / 11 64-bit',
+        cpu: 'Intel Core i7-6700 / AMD Ryzen 7 2700X',
+        gpu: 'NVIDIA GeForce GTX 1660 / RTX 2060 / AMD Radeon RX 5600 XT',
+        ram: '12 GB - 16 GB RAM Dual-Channel',
+        storage: '100 GB SSD M.2',
+        directx: 'DirectX 12'
+      },
+      ultra: {
+        resolution: '4K @ 120 FPS (Ultra HyperMotion V)',
+        os: 'Windows 11 64-bit',
+        cpu: 'Intel Core i7-12700 / AMD Ryzen 7 5700X',
+        gpu: 'NVIDIA GeForce RTX 3070 / RTX 4070 / RX 6800',
+        ram: '16 GB - 32 GB RAM',
+        storage: '100 GB SSD NVMe M.2',
+        directx: 'DirectX 12'
+      }
+    };
+  }
+
+  const isHighEnd = year >= 2023 || (game?.popularity || 90) >= 95;
 
   return {
     minimum: {

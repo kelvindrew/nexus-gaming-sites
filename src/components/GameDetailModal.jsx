@@ -74,6 +74,20 @@ export default function GameDetailModal({
     onSendWhatsAppRequest(game, selectedConsole);
   };
 
+  const handlePcWhatsAppCheck = (tier = selectedPcTier) => {
+    const cleanPhone = (game?.phone || '+243821780077').replace(/[^0-9+]/g, '');
+    const tierName = tier === 'minimum' ? 'Minimale (720p/1080p 30 FPS)' : tier === 'ultra' ? 'Ultra 4K Ray-Tracing' : 'Recommandée (1080p 60 FPS)';
+    const text = encodeURIComponent(
+      `🖥️ *DIAGNOSTIC COMPATIBILITÉ PC — NEXUS GAMING*\n` +
+      `━━━━━━━━━━━━━━━━━━━━━\n` +
+      `Bonjour NEXUS GAMING, je souhaite installer le jeu *${game.title}* sur mon PC.\n\n` +
+      `🎯 *Niveau visé :* Configuration ${tierName}\n` +
+      `⚙️ *Pouvez-vous vérifier si mon Processeur, ma Carte Graphique et ma RAM font tourner ce jeu fluidement ?*\n` +
+      `📦 Titre : ${game.title} (${game.size || 'Taille standard'})`
+    );
+    window.open(`https://wa.me/${cleanPhone}?text=${text}`, '_blank');
+  };
+
   const currentTierSpec = pcSpecs[selectedPcTier] || pcSpecs.recommended || pcSpecs.minimum;
 
   return (
@@ -310,29 +324,96 @@ export default function GameDetailModal({
                   </div>
                 )}
 
-                {/* PC Requirements Fast Teaser Card (If PC is supported) */}
+                {/* PC Requirements Interactive Showcase (If PC is supported) */}
                 {isPcCompatible && (
-                  <div 
-                    onClick={() => setActiveTab('pcSpecs')}
-                    className="p-4 rounded-2xl bg-gradient-to-r from-blue-950/40 via-purple-950/30 to-slate-900 border border-blue-500/30 hover:border-cyan-400 transition-all cursor-pointer flex flex-col sm:flex-row items-start sm:items-center justify-between gap-3 shadow-lg"
-                  >
-                    <div className="flex items-center gap-3">
-                      <div className="p-2.5 rounded-xl bg-blue-500/20 text-cyan-300 border border-blue-400/30">
-                        <Cpu className="w-5 h-5" />
+                  <div className="p-4 sm:p-5 rounded-2xl bg-gradient-to-br from-blue-950/40 via-purple-950/20 to-slate-900 border border-blue-500/30 space-y-4 shadow-xl">
+                    <div className="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-3 border-b border-white/[0.08] pb-3">
+                      <div className="flex items-center gap-2.5">
+                        <div className="p-2 rounded-xl bg-blue-500/20 text-cyan-300 border border-blue-400/30">
+                          <Cpu className="w-5 h-5 text-cyan-400" />
+                        </div>
+                        <div>
+                          <h4 className="font-heading font-bold text-sm text-white">
+                            💻 Configurations PC Requises
+                          </h4>
+                          <p className="text-xs text-slate-400">
+                            Guide matériel pour jouer à <strong>{game.title}</strong> sur PC
+                          </p>
+                        </div>
                       </div>
-                      <div>
-                        <h4 className="font-heading font-bold text-xs sm:text-sm text-white">
-                          Configuration PC Recommandée : {pcSpecs.recommended.gpu}
-                        </h4>
-                        <p className="text-[11px] text-slate-400">
-                          {pcSpecs.recommended.cpu} • {pcSpecs.recommended.ram} • {pcSpecs.recommended.storage}
-                        </p>
+
+                      {/* 3-Tier Switcher */}
+                      <div className="flex items-center gap-1 p-1 rounded-xl bg-black/60 border border-white/10 w-full sm:w-auto">
+                        <button
+                          type="button"
+                          onClick={() => setSelectedPcTier('minimum')}
+                          className={`flex-1 sm:flex-none px-3 py-1.5 rounded-lg text-xs font-bold transition-all ${
+                            selectedPcTier === 'minimum'
+                              ? 'bg-amber-500 text-black shadow font-black'
+                              : 'text-slate-400 hover:text-white'
+                          }`}
+                        >
+                          🟡 Mini
+                        </button>
+                        <button
+                          type="button"
+                          onClick={() => setSelectedPcTier('recommended')}
+                          className={`flex-1 sm:flex-none px-3 py-1.5 rounded-lg text-xs font-bold transition-all ${
+                            selectedPcTier === 'recommended'
+                              ? 'bg-cyan-500 text-black shadow font-black'
+                              : 'text-slate-400 hover:text-white'
+                          }`}
+                        >
+                          🔵 Recommandé
+                        </button>
+                        <button
+                          type="button"
+                          onClick={() => setSelectedPcTier('ultra')}
+                          className={`flex-1 sm:flex-none px-3 py-1.5 rounded-lg text-xs font-bold transition-all ${
+                            selectedPcTier === 'ultra'
+                              ? 'bg-purple-600 text-white shadow font-black'
+                              : 'text-slate-400 hover:text-white'
+                          }`}
+                        >
+                          🟣 Ultra 4K
+                        </button>
                       </div>
                     </div>
-                    <span className="text-xs text-cyan-300 font-bold flex items-center gap-1">
-                      <span>Voir toutes les configs (Min/Rec/Max)</span>
-                      <span>➔</span>
-                    </span>
+
+                    {/* Active Tier Summary Grid */}
+                    <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-3">
+                      <div className="p-3 rounded-xl bg-slate-900/80 border border-cyan-500/20">
+                        <span className="text-[10px] text-cyan-300 font-bold uppercase tracking-wider block mb-0.5">⚙️ Processeur (CPU)</span>
+                        <span className="text-xs font-bold text-white font-mono">{currentTierSpec.cpu}</span>
+                      </div>
+                      <div className="p-3 rounded-xl bg-slate-900/80 border border-purple-500/20">
+                        <span className="text-[10px] text-purple-300 font-bold uppercase tracking-wider block mb-0.5">🎮 Carte Graphique (GPU)</span>
+                        <span className="text-xs font-bold text-white font-mono">{currentTierSpec.gpu}</span>
+                      </div>
+                      <div className="p-3 rounded-xl bg-slate-900/80 border border-emerald-500/20">
+                        <span className="text-[10px] text-emerald-300 font-bold uppercase tracking-wider block mb-0.5">⚡ RAM & Stockage</span>
+                        <span className="text-xs font-bold text-white font-mono">{currentTierSpec.ram} • {currentTierSpec.storage}</span>
+                      </div>
+                    </div>
+
+                    <div className="flex flex-col sm:flex-row items-stretch sm:items-center justify-between gap-2.5 pt-1">
+                      <button
+                        type="button"
+                        onClick={() => handlePcWhatsAppCheck()}
+                        className="py-2.5 px-4 rounded-xl bg-emerald-600/30 hover:bg-emerald-600/50 text-emerald-300 hover:text-white border border-emerald-500/40 text-xs font-bold flex items-center justify-center gap-2 transition-all active:scale-95 shadow"
+                      >
+                        <MessageSquare className="w-4 h-4 text-emerald-400" />
+                        <span>💬 Vérifier si mon PC est compatible sur WhatsApp</span>
+                      </button>
+
+                      <button
+                        type="button"
+                        onClick={() => setActiveTab('pcSpecs')}
+                        className="text-xs text-cyan-400 hover:text-cyan-300 font-bold flex items-center justify-center gap-1 underline font-cyber"
+                      >
+                        <span>Tableau comparatif détaillé (Min/Rec/Max) ➔</span>
+                      </button>
+                    </div>
                   </div>
                 )}
 
@@ -435,109 +516,253 @@ export default function GameDetailModal({
             {activeTab === 'pcSpecs' && (
               <div className="space-y-6 animate-fadeIn">
                 
-                <div className="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-3 p-4 rounded-2xl bg-blue-950/30 border border-blue-500/30">
+                <div className="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-3 p-4 rounded-2xl bg-gradient-to-r from-blue-950/40 via-purple-950/20 to-slate-900 border border-blue-500/30">
                   <div>
-                    <h3 className="text-sm font-black text-white font-heading uppercase flex items-center gap-2">
-                      <Cpu className="w-4 h-4 text-cyan-400" />
+                    <h3 className="text-sm sm:text-base font-black text-white font-heading uppercase flex items-center gap-2">
+                      <Cpu className="w-5 h-5 text-cyan-400" />
                       <span>CONFIGURATIONS SYSTÈME PC REQUISES</span>
                     </h3>
                     <p className="text-xs text-slate-300 mt-0.5">
-                      Spécifications matérielles testées et optimisées pour <strong>{game.title}</strong>
+                      Spécifications matérielles testées et validées en atelier pour <strong>{game.title}</strong>
                     </p>
                   </div>
 
-                  <div className="flex items-center gap-1.5 p-1 rounded-xl bg-black/60 border border-white/10 w-full sm:w-auto overflow-x-auto no-scrollbar">
-                    <button
-                      onClick={() => setSelectedPcTier('minimum')}
-                      className={`px-3 py-1.5 rounded-lg text-xs font-bold transition-all shrink-0 ${
-                        selectedPcTier === 'minimum'
-                          ? 'bg-amber-500 text-black shadow-md'
-                          : 'text-slate-400 hover:text-white'
-                      }`}
-                    >
-                      🟡 Minimale
-                    </button>
-                    <button
-                      onClick={() => setSelectedPcTier('recommended')}
-                      className={`px-3 py-1.5 rounded-lg text-xs font-bold transition-all shrink-0 ${
-                        selectedPcTier === 'recommended'
-                          ? 'bg-cyan-500 text-black shadow-md'
-                          : 'text-slate-400 hover:text-white'
-                      }`}
-                    >
-                      🔵 Recommandée
-                    </button>
-                    <button
-                      onClick={() => setSelectedPcTier('ultra')}
-                      className={`px-3 py-1.5 rounded-lg text-xs font-bold transition-all shrink-0 ${
-                        selectedPcTier === 'ultra'
-                          ? 'bg-purple-600 text-white shadow-md'
-                          : 'text-slate-400 hover:text-white'
-                      }`}
-                    >
-                      🟣 Ultra
-                    </button>
-                  </div>
+                  <button
+                    type="button"
+                    onClick={() => handlePcWhatsAppCheck()}
+                    className="w-full sm:w-auto px-4 py-2.5 rounded-xl bg-emerald-600 hover:bg-emerald-500 text-white text-xs font-bold flex items-center justify-center gap-2 shadow-lg active:scale-95 transition-all shrink-0 font-cyber"
+                  >
+                    <MessageSquare className="w-4 h-4" />
+                    <span>Vérifier mon PC sur WhatsApp</span>
+                  </button>
                 </div>
 
-                <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-                  <div className="p-4 rounded-2xl glass-card-neon space-y-1">
-                    <div className="flex items-center gap-2 text-xs font-bold text-cyan-300">
-                      <Cpu className="w-4 h-4 text-cyan-400" />
-                      <span>PROCESSEUR (CPU)</span>
+                {/* DESKTOP 3-COLUMNS COMPARATIVE MATRIX (Mini vs Recommandé vs Ultra) */}
+                <div className="hidden lg:grid grid-cols-3 gap-4">
+                  
+                  {/* TIER 1: MINIMALE */}
+                  <div className="p-5 rounded-2xl bg-slate-950/80 border border-amber-500/30 flex flex-col justify-between space-y-4 relative overflow-hidden">
+                    <div className="space-y-3">
+                      <div className="flex items-center justify-between">
+                        <span className="px-2.5 py-1 rounded-lg bg-amber-500/20 text-amber-300 text-xs font-black border border-amber-500/40">
+                          🟡 MINIMALE
+                        </span>
+                        <span className="text-[11px] text-slate-400 font-mono">720p / 1080p • 30 FPS</span>
+                      </div>
+                      <p className="text-[11px] text-slate-300">{pcSpecs.minimum.resolution}</p>
+
+                      <div className="space-y-2.5 pt-2 border-t border-white/[0.08] text-xs">
+                        <div>
+                          <span className="text-[10px] text-slate-400 uppercase font-bold block">Processeur (CPU)</span>
+                          <span className="font-bold text-white font-mono">{pcSpecs.minimum.cpu}</span>
+                        </div>
+                        <div>
+                          <span className="text-[10px] text-slate-400 uppercase font-bold block">Carte Graphique (GPU)</span>
+                          <span className="font-bold text-amber-300 font-mono">{pcSpecs.minimum.gpu}</span>
+                        </div>
+                        <div>
+                          <span className="text-[10px] text-slate-400 uppercase font-bold block">Mémoire RAM</span>
+                          <span className="font-bold text-white font-mono">{pcSpecs.minimum.ram}</span>
+                        </div>
+                        <div>
+                          <span className="text-[10px] text-slate-400 uppercase font-bold block">Stockage & OS</span>
+                          <span className="font-bold text-slate-200 font-mono">{pcSpecs.minimum.storage} • {pcSpecs.minimum.os}</span>
+                        </div>
+                      </div>
                     </div>
-                    <p className="text-sm font-bold text-white font-mono">{currentTierSpec.cpu}</p>
+
+                    <button
+                      type="button"
+                      onClick={() => handlePcWhatsAppCheck('minimum')}
+                      className="w-full py-2 rounded-xl bg-amber-500/20 hover:bg-amber-500/30 text-amber-300 border border-amber-500/30 text-xs font-bold text-center transition-all"
+                    >
+                      Tester en Config Minimale
+                    </button>
                   </div>
 
-                  <div className="p-4 rounded-2xl glass-card-neon space-y-1">
-                    <div className="flex items-center gap-2 text-xs font-bold text-purple-300">
-                      <Monitor className="w-4 h-4 text-purple-400" />
-                      <span>CARTE GRAPHIQUE (GPU)</span>
+                  {/* TIER 2: RECOMMANDÉE (BEST VALUE) */}
+                  <div className="p-5 rounded-2xl bg-cyan-950/30 border-2 border-cyan-400 shadow-[0_0_30px_rgba(0,240,255,0.2)] flex flex-col justify-between space-y-4 relative overflow-hidden">
+                    <div className="absolute top-0 right-0 bg-cyan-400 text-black text-[9px] font-black px-3 py-0.5 rounded-bl-xl uppercase tracking-wider">
+                      ★ Recommandé Atelier
                     </div>
-                    <p className="text-sm font-bold text-white font-mono">{currentTierSpec.gpu}</p>
+
+                    <div className="space-y-3">
+                      <div className="flex items-center justify-between">
+                        <span className="px-2.5 py-1 rounded-lg bg-cyan-500/20 text-cyan-300 text-xs font-black border border-cyan-500/40">
+                          🔵 RECOMMANDÉE
+                        </span>
+                        <span className="text-[11px] text-cyan-300 font-mono font-bold">1080p / 1440p • 60 FPS</span>
+                      </div>
+                      <p className="text-[11px] text-slate-200">{pcSpecs.recommended.resolution}</p>
+
+                      <div className="space-y-2.5 pt-2 border-t border-white/[0.08] text-xs">
+                        <div>
+                          <span className="text-[10px] text-cyan-400 uppercase font-bold block">Processeur (CPU)</span>
+                          <span className="font-bold text-white font-mono">{pcSpecs.recommended.cpu}</span>
+                        </div>
+                        <div>
+                          <span className="text-[10px] text-cyan-400 uppercase font-bold block">Carte Graphique (GPU)</span>
+                          <span className="font-bold text-cyan-300 font-mono">{pcSpecs.recommended.gpu}</span>
+                        </div>
+                        <div>
+                          <span className="text-[10px] text-cyan-400 uppercase font-bold block">Mémoire RAM</span>
+                          <span className="font-bold text-white font-mono">{pcSpecs.recommended.ram}</span>
+                        </div>
+                        <div>
+                          <span className="text-[10px] text-cyan-400 uppercase font-bold block">Stockage & OS</span>
+                          <span className="font-bold text-slate-200 font-mono">{pcSpecs.recommended.storage} • {pcSpecs.recommended.os}</span>
+                        </div>
+                      </div>
+                    </div>
+
+                    <button
+                      type="button"
+                      onClick={() => handlePcWhatsAppCheck('recommended')}
+                      className="w-full py-2.5 rounded-xl bg-cyan-500 text-black font-black text-xs text-center shadow hover:bg-cyan-400 active:scale-95 transition-all"
+                    >
+                      Choisir la Config Recommandée 60FPS
+                    </button>
                   </div>
 
-                  <div className="p-4 rounded-2xl glass-card-neon space-y-1">
-                    <div className="flex items-center gap-2 text-xs font-bold text-emerald-300">
-                      <Zap className="w-4 h-4 text-emerald-400" />
-                      <span>MÉMOIRE VIVE (RAM)</span>
+                  {/* TIER 3: ULTRA 4K */}
+                  <div className="p-5 rounded-2xl bg-purple-950/30 border border-purple-500/40 shadow-[0_0_20px_rgba(168,85,247,0.15)] flex flex-col justify-between space-y-4 relative overflow-hidden">
+                    <div className="space-y-3">
+                      <div className="flex items-center justify-between">
+                        <span className="px-2.5 py-1 rounded-lg bg-purple-500/20 text-purple-300 text-xs font-black border border-purple-500/40">
+                          🟣 ULTRA 4K RAY-TRACING
+                        </span>
+                        <span className="text-[11px] text-purple-300 font-mono font-bold">4K 2160p • 60+ FPS</span>
+                      </div>
+                      <p className="text-[11px] text-slate-300">{pcSpecs.ultra.resolution}</p>
+
+                      <div className="space-y-2.5 pt-2 border-t border-white/[0.08] text-xs">
+                        <div>
+                          <span className="text-[10px] text-purple-400 uppercase font-bold block">Processeur (CPU)</span>
+                          <span className="font-bold text-white font-mono">{pcSpecs.ultra.cpu}</span>
+                        </div>
+                        <div>
+                          <span className="text-[10px] text-purple-400 uppercase font-bold block">Carte Graphique (GPU)</span>
+                          <span className="font-bold text-purple-300 font-mono">{pcSpecs.ultra.gpu}</span>
+                        </div>
+                        <div>
+                          <span className="text-[10px] text-purple-400 uppercase font-bold block">Mémoire RAM</span>
+                          <span className="font-bold text-white font-mono">{pcSpecs.ultra.ram}</span>
+                        </div>
+                        <div>
+                          <span className="text-[10px] text-purple-400 uppercase font-bold block">Stockage & OS</span>
+                          <span className="font-bold text-slate-200 font-mono">{pcSpecs.ultra.storage} • {pcSpecs.ultra.os}</span>
+                        </div>
+                      </div>
                     </div>
-                    <p className="text-sm font-bold text-white font-mono">{currentTierSpec.ram}</p>
+
+                    <button
+                      type="button"
+                      onClick={() => handlePcWhatsAppCheck('ultra')}
+                      className="w-full py-2 rounded-xl bg-purple-600/30 hover:bg-purple-600/50 text-purple-200 border border-purple-500/40 text-xs font-bold text-center transition-all"
+                    >
+                      Tester en Config Ultra 4K
+                    </button>
                   </div>
 
-                  <div className="p-4 rounded-2xl glass-card-neon space-y-1">
-                    <div className="flex items-center gap-2 text-xs font-bold text-amber-300">
-                      <HardDrive className="w-4 h-4 text-amber-400" />
-                      <span>ESPACE DISQUE (SSD RECOMMANDÉ)</span>
-                    </div>
-                    <p className="text-sm font-bold text-white font-mono">{currentTierSpec.storage}</p>
+                </div>
+
+                {/* MOBILE / TABLET SWITCHABLE CARDS VIEW */}
+                <div className="lg:hidden space-y-4">
+                  <div className="flex items-center gap-1.5 p-1 rounded-xl bg-black/60 border border-white/10 w-full overflow-x-auto no-scrollbar">
+                    <button
+                      type="button"
+                      onClick={() => setSelectedPcTier('minimum')}
+                      className={`flex-1 px-3 py-2 rounded-lg text-xs font-bold transition-all text-center ${
+                        selectedPcTier === 'minimum'
+                          ? 'bg-amber-500 text-black shadow-md font-black'
+                          : 'text-slate-400 hover:text-white'
+                      }`}
+                    >
+                      🟡 Minimale (30 FPS)
+                    </button>
+                    <button
+                      type="button"
+                      onClick={() => setSelectedPcTier('recommended')}
+                      className={`flex-1 px-3 py-2 rounded-lg text-xs font-bold transition-all text-center ${
+                        selectedPcTier === 'recommended'
+                          ? 'bg-cyan-500 text-black shadow-md font-black'
+                          : 'text-slate-400 hover:text-white'
+                      }`}
+                    >
+                      🔵 Recommandée (60 FPS)
+                    </button>
+                    <button
+                      type="button"
+                      onClick={() => setSelectedPcTier('ultra')}
+                      className={`flex-1 px-3 py-2 rounded-lg text-xs font-bold transition-all text-center ${
+                        selectedPcTier === 'ultra'
+                          ? 'bg-purple-600 text-white shadow-md font-black'
+                          : 'text-slate-400 hover:text-white'
+                      }`}
+                    >
+                      🟣 Ultra 4K
+                    </button>
                   </div>
 
-                  <div className="p-4 rounded-2xl glass-card-neon space-y-1">
-                    <div className="flex items-center gap-2 text-xs font-bold text-slate-300">
-                      <Layers className="w-4 h-4 text-cyan-400" />
-                      <span>SYSTÈME & DIRECTX</span>
+                  <div className="grid grid-cols-1 md:grid-cols-2 gap-3">
+                    <div className="p-4 rounded-2xl glass-card-neon space-y-1">
+                      <div className="flex items-center gap-2 text-xs font-bold text-cyan-300">
+                        <Cpu className="w-4 h-4 text-cyan-400" />
+                        <span>PROCESSEUR (CPU)</span>
+                      </div>
+                      <p className="text-sm font-bold text-white font-mono">{currentTierSpec.cpu}</p>
                     </div>
-                    <p className="text-xs sm:text-sm font-bold text-white font-mono">
-                      {currentTierSpec.os} • {currentTierSpec.directx}
-                    </p>
-                  </div>
 
-                  <div className="p-4 rounded-2xl glass-card-neon space-y-1">
-                    <div className="flex items-center gap-2 text-xs font-bold text-rose-300">
-                      <Sparkles className="w-4 h-4 text-rose-400" />
-                      <span>OBJECTIF DE FLUIDITÉ & RÉSOLUTION</span>
+                    <div className="p-4 rounded-2xl glass-card-neon space-y-1">
+                      <div className="flex items-center gap-2 text-xs font-bold text-purple-300">
+                        <Monitor className="w-4 h-4 text-purple-400" />
+                        <span>CARTE GRAPHIQUE (GPU)</span>
+                      </div>
+                      <p className="text-sm font-bold text-white font-mono">{currentTierSpec.gpu}</p>
                     </div>
-                    <p className="text-xs sm:text-sm font-bold text-white font-mono">{currentTierSpec.resolution}</p>
+
+                    <div className="p-4 rounded-2xl glass-card-neon space-y-1">
+                      <div className="flex items-center gap-2 text-xs font-bold text-emerald-300">
+                        <Zap className="w-4 h-4 text-emerald-400" />
+                        <span>MÉMOIRE VIVE (RAM)</span>
+                      </div>
+                      <p className="text-sm font-bold text-white font-mono">{currentTierSpec.ram}</p>
+                    </div>
+
+                    <div className="p-4 rounded-2xl glass-card-neon space-y-1">
+                      <div className="flex items-center gap-2 text-xs font-bold text-amber-300">
+                        <HardDrive className="w-4 h-4 text-amber-400" />
+                        <span>ESPACE DISQUE (SSD)</span>
+                      </div>
+                      <p className="text-sm font-bold text-white font-mono">{currentTierSpec.storage}</p>
+                    </div>
+
+                    <div className="p-4 rounded-2xl glass-card-neon space-y-1">
+                      <div className="flex items-center gap-2 text-xs font-bold text-slate-300">
+                        <Layers className="w-4 h-4 text-cyan-400" />
+                        <span>SYSTÈME & DIRECTX</span>
+                      </div>
+                      <p className="text-xs sm:text-sm font-bold text-white font-mono">
+                        {currentTierSpec.os} • {currentTierSpec.directx}
+                      </p>
+                    </div>
+
+                    <div className="p-4 rounded-2xl glass-card-neon space-y-1">
+                      <div className="flex items-center gap-2 text-xs font-bold text-rose-300">
+                        <Sparkles className="w-4 h-4 text-rose-400" />
+                        <span>OBJECTIF DE FLUIDITÉ</span>
+                      </div>
+                      <p className="text-xs sm:text-sm font-bold text-white font-mono">{currentTierSpec.resolution}</p>
+                    </div>
                   </div>
                 </div>
 
                 <div className="p-4 rounded-2xl bg-white/[0.03] border border-white/[0.08] text-xs text-slate-300 flex items-start gap-3">
                   <ShieldCheck className="w-5 h-5 text-emerald-400 shrink-0 mt-0.5" />
                   <div>
-                    <strong className="block text-white font-bold mb-0.5">Assistance & Configuration Atelier NEXUS</strong>
+                    <strong className="block text-white font-bold mb-0.5">Assistance & Configuration en Atelier NEXUS</strong>
                     <span>
-                      Nous installons et optimisons les pilotes graphiques Nvidia GeForce / AMD Radeon, les bibliothèques DirectX, Visual C++ et configurons les profils graphiques selon votre matériel pour garantir un framerate 60FPS stable.
+                      Nous optimisons vos pilotes graphiques Nvidia GeForce / AMD Radeon, les bibliothèques DirectX, Visual C++ et installons les profils graphiques sur mesure pour garantir un framerate 60FPS stable et sans surchauffe.
                     </span>
                   </div>
                 </div>
