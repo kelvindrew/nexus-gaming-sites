@@ -362,49 +362,48 @@ export const INITIAL_PACKS = {
     {
       id: 'game-single',
       name: 'Unité (1 Jeu)',
-      price: '3 $',
+      price: '5 $',
       unit: '/ jeu',
       features: [
-        'Installation propre sur SSD/HDD/PC',
-        'Dernière mise à jour intégrée',
+        'Installation propre sur SSD/HDD/Console',
+        'Dernière mise à jour et patchs inclus',
         'Vérification du fonctionnement'
       ]
     },
     {
-      id: 'game-pack-5',
-      name: 'Pack 5 Jeux',
-      price: '12 $',
-      unit: 'pack (2.4$/jeu)',
-      popular: true,
+      id: 'game-pack-3',
+      name: 'Pack 3 Jeux',
+      price: '15 $',
+      unit: 'pack (5$/jeu)',
       features: [
-        'Choix de 5 jeux au choix',
-        'Installation des majs et DLCs',
-        'Transfert haute vitesse offert',
-        'Économie de 3$'
+        'Choix de 3 jeux au choix',
+        'Installation des patchs et DLCs',
+        'Transfert haute vitesse'
       ]
     },
     {
-      id: 'game-pack-10',
-      name: 'Pack 10 Jeux',
-      price: '20 $',
-      unit: 'pack (2$/jeu)',
+      id: 'game-pack-4-promo',
+      name: 'Pack Promo 4 Gros Jeux Récentes',
+      price: '35 $',
+      unit: 'pack promo',
+      popular: true,
       features: [
-        'Choix de 10 jeux au choix',
-        'Optimisation espace disque',
-        'Dépoussiérage rapide offert',
-        'Assistance d\'installation dédiée'
+        '4 Blockbusters récents au choix (FC 25, GTA V, etc.)',
+        'Mises à jour et DLCs complets',
+        'Transfert ultra-rapide offert',
+        'Économie de 10 $'
       ]
     },
     {
       id: 'game-custom-storage',
       name: 'Remplissage Disque Dur (500Go / 1To / 2To)',
-      price: '35 $',
+      price: '60 $',
       unit: 'forfait 1 To',
       features: [
-        '500 Go (~12 jeux) : 20 $',
-        '1 To (~30 jeux) : 35 $',
-        '2 To (~70 jeux) : 60 $',
-        'Support & transfert ultra-rapide'
+        '500 Go (~8-10 jeux) : 35 $',
+        '1 To (~18-25 jeux) : 60 $',
+        '2 To (~40-50 jeux) : 100 $',
+        'Support & transfert atelier'
       ]
     }
   ]
@@ -412,30 +411,30 @@ export const INITIAL_PACKS = {
 
 export const INITIAL_FLASH_DEALS = [
   {
-    id: 'deal-ps4-1tb',
-    title: 'Pack Flash PS4 Pro & Slim 1 To',
-    subtitle: 'Remplissage 1 To (~30 Jeux) + Dépoussiérage & Pâte Thermique Offert',
-    badge: '🔥 OFFRE SPÉCIALE WEEK-END',
-    originalPrice: 50,
+    id: 'deal-ps4-4games',
+    title: 'Pack Promo Flash 4 Jeux PS4 / PS5',
+    subtitle: '4 Nouveautés & Blockbusters au Choix (FC 25, GTA V, Spider-Man 2, Black Myth, etc.)',
+    badge: '🔥 PROMO WEEK-END (4 JEUX)',
+    originalPrice: 45,
     promoPrice: 35,
-    discountPercentage: 30,
+    discountPercentage: 22,
     expiresInHours: 48,
     image: 'https://images.unsplash.com/photo-1507457379470-08b800bebc67?q=80&w=800&auto=format&fit=crop',
-    platforms: ['PS4 Fat', 'PS4 Slim', 'PS4 Pro'],
-    features: ['30 Jeux au choix', 'Pâte thermique Arctic MX-4', 'Nettoyage ventilateur inclus', 'Garantie 1 Mois']
+    platforms: ['PS5', 'PS4 Fat', 'PS4 Slim', 'PS4 Pro'],
+    features: ['4 Jeux récents au choix', 'Derniers patchs & DLCs installés', 'Transfert haute vitesse', 'Garantie atelier']
   },
   {
     id: 'deal-ps3-hen',
-    title: 'Pack Flash PS3 Rétro Arcade',
-    subtitle: 'Flash HEN 4.91 + 15 Jeux PS3/PS2/PS1 + Boutique PKGi Directe',
-    badge: '⚡ FLASH DEAL RDC',
-    originalPrice: 25,
-    promoPrice: 15,
-    discountPercentage: 40,
+    title: 'Pack Flash PS3 HEN + 5 Jeux',
+    subtitle: 'Flash HEN 4.91 / CFW Evilnat + Multiman + 5 Jeux PS3 / PS2 au Choix',
+    badge: '⚡ FLASH RÉTRO PS3',
+    originalPrice: 30,
+    promoPrice: 20,
+    discountPercentage: 33,
     expiresInHours: 24,
     image: 'https://images.unsplash.com/photo-1526509867162-5b0c0d1b4b33?q=80&w=800&auto=format&fit=crop',
     platforms: ['PS3 Fat', 'PS3 Slim', 'PS3 Super Slim'],
-    features: ['Flash HEN 4.91', 'Boutique PKGi en direct', 'Contrôle ventilateur WebMAN', '15 Jeux installés']
+    features: ['Flash HEN 4.91 officiel', 'Boutique PKGi en direct', 'Contrôle ventilateur WebMAN', '5 Jeux installés au choix']
   },
   {
     id: 'deal-pc-gamer',
@@ -443,12 +442,12 @@ export const INITIAL_FLASH_DEALS = [
     subtitle: 'Formatage Windows 11 Pro + Suite Office 2024 + Nettoyage + Pâte Thermique',
     badge: '🏆 PACK MASTER PC',
     originalPrice: 35,
-    promoPrice: 20,
-    discountPercentage: 42,
+    promoPrice: 25,
+    discountPercentage: 28,
     expiresInHours: 72,
     image: 'https://images.unsplash.com/photo-1587202372775-e229f172b9d7?q=80&w=800&auto=format&fit=crop',
     platforms: ['PC Portable', 'PC Fixe Gaming', 'Toutes Marques'],
-    features: ['Windows 11 Pro activé', 'Pack Office Pro complet', 'Nettoyage & MX-4', 'Pilotes optimisés']
+    features: ['Windows 11 Pro activé', 'Pack Office Pro complet', 'Nettoyage & Arctic MX-4', 'Pilotes optimisés']
   }
 ];
 

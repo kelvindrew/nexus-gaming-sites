@@ -20,20 +20,20 @@ export default function ExpressDiagnosticQuiz({ config, onOpenQuote }) {
 
   const ISSUES_BY_DEVICE = {
     ps4: [
-      { id: 'jailbreak', label: 'Je veux des jeux sans acheter de disques', solution: 'Jailbreak PS4 GoldHEN + 10 Jeux', price: 20, time: '45 min' },
-      { id: 'heat', label: 'Ma console chauffe fort ou fait un bruit d\'avion', solution: 'Dépoussiérage Ultrasons + Pâte Thermique Arctic MX-4', price: 15, time: '1 heure' },
-      { id: 'hdmi', label: 'Écran noir / Pas de signal TV (Port HDMI cassé)', solution: 'Remplacement Micro-Soudure Port HDMI 4K', price: 30, time: '2 heures' },
-      { id: 'storage', label: 'Disque plein / Je veux un gros disque dur 1 To / 2 To', solution: 'Remplissage Disque Dur 1 To (~30 Jeux inclus)', price: 35, time: '1 heure' }
+      { id: 'jailbreak', label: 'Je veux des jeux sans acheter de disques', solution: 'Jailbreak PS4 GoldHEN + 3 Jeux Blockbusters', price: 25, time: '45 min' },
+      { id: 'heat', label: 'Ma console chauffe fort ou fait un bruit d\'avion', solution: 'Dépoussiérage Ultrasons + Pâte Thermique Arctic MX-4', price: 20, time: '1 heure' },
+      { id: 'hdmi', label: 'Écran noir / Pas de signal TV (Port HDMI cassé)', solution: 'Remplacement Micro-Soudure Port HDMI 4K', price: 35, time: '2 heures' },
+      { id: 'storage', label: 'Disque plein / Je veux un gros disque dur 1 To / 2 To', solution: 'Remplissage Disque Dur 1 To (~18-25 Jeux)', price: 60, time: '1h30' }
     ],
     ps5: [
-      { id: 'maintenance', label: 'Entretien & Nettoyage préventif', solution: 'Nettoyage Dépoussiérage + Métal Liquide PS5', price: 20, time: '1 heure' },
-      { id: 'ssd', label: 'Ajout de stockage SSD M.2 Ultra Rapide', solution: 'Configuration & Installation SSD NVMe Gen4', price: 15, time: '30 min' },
-      { id: 'controller', label: 'Manette DualSense qui bouge toute seule (Drift)', solution: 'Remplacement Bloc Joystick Drift Hall Effect', price: 8, time: '45 min' },
-      { id: 'games', label: 'Installation de jeux PS5 / PS4', solution: 'Installation bibliothèque de jeux & patches', price: 15, time: '1 heure' }
+      { id: 'maintenance', label: 'Entretien & Nettoyage préventif', solution: 'Nettoyage Dépoussiérage + Métal Liquide PS5', price: 25, time: '1 heure' },
+      { id: 'ssd', label: 'Ajout de stockage SSD M.2 Ultra Rapide', solution: 'Configuration & Installation SSD NVMe Gen4', price: 20, time: '30 min' },
+      { id: 'controller', label: 'Manette DualSense qui bouge toute seule (Drift)', solution: 'Remplacement Bloc Joystick Drift Hall Effect', price: 10, time: '45 min' },
+      { id: 'games', label: 'Installation de jeux PS5 / PS4', solution: 'Installation bibliothèque de jeux & patches', price: 25, time: '1 heure' }
     ],
     ps3: [
-      { id: 'flash', label: 'Flash HEN / CFW pour jouer gratuitement', solution: 'Installation CFW Evilnat 4.91 + Multiman + 15 Jeux', price: 15, time: '45 min' },
-      { id: 'retro', label: 'Installer des jeux PS1, PS2, PSP & Rétro', solution: 'Pack Rétro Émulateurs + 5000 Jeux d\'arcade', price: 15, time: '1 heure' },
+      { id: 'flash', label: 'Flash HEN / CFW pour jouer gratuitement', solution: 'Installation CFW Evilnat 4.91 + Multiman + 5 Jeux PS3', price: 20, time: '45 min' },
+      { id: 'retro', label: 'Installer des jeux PS1, PS2, PSP & Rétro', solution: 'Pack Rétro Émulateurs + Jeux d\'arcade', price: 15, time: '45 min' },
       { id: 'heat', label: 'Surchauffe / Voyant jaune ou rouge (YLOD)', solution: 'Remplacement Pâte Thermique + Contrôle WebMAN', price: 15, time: '1 heure' }
     ],
     switch: [

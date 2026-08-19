@@ -26,14 +26,18 @@ export default function GameCart({
 
   const totalGB = Math.round(cart.reduce((acc, game) => acc + parseSizeToGB(game.size), 0));
 
-  // Estimate price in USD (DRC rate)
+  // Estimate realistic price in USD (DRC workshop rates)
   const calculateEstimatedPrice = (count, gb) => {
-    if (count === 1) return 3;
-    if (count <= 5) return 12;
-    if (count <= 10) return 20;
-    if (gb > 1500) return 60; // 2TB
-    if (gb > 700) return 35;  // 1TB
-    return Math.min(Math.round(count * 1.8), 35);
+    if (count === 1) return 5;
+    if (count === 2) return 10;
+    if (count === 3) return 15;
+    if (count === 4) return 35; // Pack Promo 4 Gros Jeux
+    if (count === 5) return 25;
+    if (count <= 8) return 35;
+    if (gb > 1500) return 100;  // Disque 2 To
+    if (gb > 700) return 60;    // Disque 1 To
+    if (gb > 400) return 35;    // Disque 500 Go
+    return Math.min(Math.round(count * 4.5), 60);
   };
 
   const estimatedPrice = calculateEstimatedPrice(cart.length, totalGB);

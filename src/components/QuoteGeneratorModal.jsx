@@ -40,11 +40,12 @@ export default function QuoteGeneratorModal({
 
   const GAME_STORAGE_PACKS = [
     { id: 'none', name: 'Aucun pack de jeux (Service uniquement)', price: 0, gb: '0 Go' },
-    { id: 'pack-5', name: 'Pack 5 Jeux au choix (Majs & DLCs inclus)', price: 12, gb: '~180 Go' },
-    { id: 'pack-10', name: 'Pack 10 Jeux au choix (Tous genres)', price: 20, gb: '~350 Go' },
-    { id: 'pack-500gb', name: 'Remplissage Intégral Disque 500 Go (~15 jeux)', price: 20, gb: '500 Go' },
-    { id: 'pack-1tb', name: 'Remplissage Intégral Disque 1 To (~30 jeux)', price: 35, gb: '1000 Go' },
-    { id: 'pack-2tb', name: 'Remplissage Intégral Disque 2 To (~70 jeux)', price: 60, gb: '2000 Go' }
+    { id: 'pack-3', name: 'Pack 3 Jeux au choix (Majs & DLCs)', price: 15, gb: '~120 Go' },
+    { id: 'pack-4-promo', name: 'Pack Promo 4 Gros Jeux Récentes', price: 35, gb: '~220 Go' },
+    { id: 'pack-5', name: 'Pack 5 Jeux au choix', price: 25, gb: '~180 Go' },
+    { id: 'pack-500gb', name: 'Remplissage Disque 500 Go (~8-10 jeux)', price: 35, gb: '500 Go' },
+    { id: 'pack-1tb', name: 'Remplissage Disque 1 To (~18-25 jeux)', price: 60, gb: '1000 Go' },
+    { id: 'pack-2tb', name: 'Remplissage Disque 2 To (~40-50 jeux)', price: 100, gb: '2000 Go' }
   ];
 
   const toggleService = (id) => {
