@@ -57,8 +57,8 @@ export default function PopularCarousel({ games, onSelectGame }) {
           </div>
         </div>
 
-        {/* Category Tabs (Apple Dark Segmented Pills) */}
-        <div className="flex items-center gap-2 overflow-x-auto no-scrollbar pb-2 mb-6">
+        {/* Category Tabs (Apple Dark Segmented Pills with smooth mobile edge scrolling) */}
+        <div className="flex items-center gap-2 overflow-x-auto no-scrollbar pb-2 mb-6 -mx-4 px-4 sm:mx-0 sm:px-0">
           {categories.map((cat) => (
             <button
               key={cat.id}

@@ -766,79 +766,77 @@ export default function AdminDashboard({
             }`}
           >
             <Tv className="w-3.5 h-3.5" />
-            <span>🎬 Hero ({heroSlides.length})</span>
+            <span>Hero ({heroSlides.length})</span>
           </button>
 
           <button
             onClick={() => { setActiveTab('games'); setEditingGame(null); }}
-            className={`px-4 py-3 rounded-t-xl flex items-center gap-2 transition-all ${
+            className={`px-4 py-3 rounded-t-xl flex items-center gap-2 transition-all shrink-0 ${
               activeTab === 'games' ? 'bg-[#090d16] text-purple-400 border-t-2 border-purple-400' : 'text-slate-400 hover:text-white'
             }`}
           >
             <Gamepad2 className="w-4 h-4" />
-            <span>🎮 Jeux ({games.length})</span>
+            <span>Jeux ({games.length})</span>
           </button>
 
           <button
             onClick={() => { setActiveTab('consoles'); setEditingConsole(null); }}
-            className={`px-4 py-3 rounded-t-xl flex items-center gap-2 transition-all ${
+            className={`px-4 py-3 rounded-t-xl flex items-center gap-2 transition-all shrink-0 ${
               activeTab === 'consoles' ? 'bg-[#090d16] text-blue-400 border-t-2 border-blue-400' : 'text-slate-400 hover:text-white'
             }`}
           >
             <HardDrive className="w-4 h-4" />
-            <span>📱 Équipements ({consoles.length})</span>
+            <span>Équipements ({consoles.length})</span>
           </button>
 
           <button
             onClick={() => { setActiveTab('services'); setEditingService(null); }}
-            className={`px-4 py-3 rounded-t-xl flex items-center gap-2 transition-all ${
+            className={`px-4 py-3 rounded-t-xl flex items-center gap-2 transition-all shrink-0 ${
               activeTab === 'services' ? 'bg-[#090d16] text-emerald-400 border-t-2 border-emerald-400' : 'text-slate-400 hover:text-white'
             }`}
           >
             <Wrench className="w-4 h-4" />
-            <span>🛠️ Services ({services.length})</span>
+            <span>Services ({services.length})</span>
           </button>
-
-
 
           <button
             onClick={() => { setActiveTab('faqs'); setEditingFaq(null); }}
-            className={`px-4 py-3 rounded-t-xl flex items-center gap-2 transition-all ${
+            className={`px-4 py-3 rounded-t-xl flex items-center gap-2 transition-all shrink-0 ${
               activeTab === 'faqs' ? 'bg-[#090d16] text-amber-400 border-t-2 border-amber-400' : 'text-slate-400 hover:text-white'
             }`}
           >
             <HelpCircle className="w-4 h-4" />
-            <span>❓ FAQ ({faqs.length})</span>
+            <span>FAQ ({faqs.length})</span>
           </button>
 
           <button
             onClick={() => { setActiveTab('reviews'); setEditingReview(null); }}
-            className={`px-4 py-3 rounded-t-xl flex items-center gap-2 transition-all ${
+            className={`px-4 py-3 rounded-t-xl flex items-center gap-2 transition-all shrink-0 ${
               activeTab === 'reviews' ? 'bg-[#090d16] text-yellow-400 border-t-2 border-yellow-400' : 'text-slate-400 hover:text-white'
             }`}
           >
             <Star className="w-4 h-4" />
-            <span>⭐ Avis ({reviews.length})</span>
+            <span>Avis ({reviews.length})</span>
           </button>
 
           <button
             onClick={() => setActiveTab('messages')}
-            className={`px-4 py-3 rounded-t-xl flex items-center gap-2 transition-all ${
+            className={`px-4 py-3 rounded-t-xl flex items-center gap-2 transition-all shrink-0 ${
               activeTab === 'messages' ? 'bg-[#090d16] text-rose-400 border-t-2 border-rose-400' : 'text-slate-400 hover:text-white'
             }`}
           >
             <MessageSquare className="w-4 h-4" />
-            <span>📩 Messages ({messages.length})</span>
+            <span>Messages ({messages.length})</span>
           </button>
 
           <button
             onClick={() => setActiveTab('config')}
-            className={`px-4 py-3 rounded-t-xl flex items-center gap-2 transition-all ${
+            className={`px-4 py-3 rounded-t-xl flex items-center gap-2 transition-all shrink-0 ${
               activeTab === 'config' ? 'bg-[#090d16] text-emerald-300 border-t-2 border-emerald-300' : 'text-slate-400 hover:text-white'
             }`}
           >
             <PhoneCall className="w-4 h-4" />
-            <span>📞 Contact & Site</span>
+            <span>Contact & Site</span>
           </button>
         </div>
 
@@ -1020,12 +1018,12 @@ export default function AdminDashboard({
                 </form>
               ) : (
                 <div className="space-y-4">
-                  <div className="flex items-center justify-between">
+                  <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-3">
                     <div>
                       <h3 className="font-heading font-bold text-lg text-white">Carrousel Netflix Hero ({heroSlides.length} bannières)</h3>
                       <p className="text-xs text-slate-400">Ajoutez, modifiez ou supprimez autant d'images paysages que vous le souhaitez sans limite.</p>
                     </div>
-                    <button onClick={() => handleOpenSlideForm()} className="py-2.5 px-4 rounded-xl btn-cyber-primary text-xs font-bold flex items-center gap-2">
+                    <button onClick={() => handleOpenSlideForm()} className="w-full sm:w-auto py-2.5 px-4 rounded-xl btn-cyber-primary text-xs font-bold flex items-center justify-center gap-2 shrink-0">
                       <Plus className="w-4 h-4" />
                       <span>Ajouter une image paysage</span>
                     </button>
@@ -1224,9 +1222,9 @@ export default function AdminDashboard({
                 </form>
               ) : (
                 <div className="space-y-4">
-                  <div className="flex items-center justify-between">
+                  <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-3">
                     <h3 className="font-heading font-bold text-lg text-white">Catalogue Actuel ({games.length} jeux)</h3>
-                    <button onClick={() => handleOpenGameForm()} className="py-2.5 px-4 rounded-xl btn-cyber-primary text-xs font-bold flex items-center gap-2">
+                    <button onClick={() => handleOpenGameForm()} className="w-full sm:w-auto py-2.5 px-4 rounded-xl btn-cyber-primary text-xs font-bold flex items-center justify-center gap-2 shrink-0">
                       <Plus className="w-4 h-4" />
                       <span>Ajouter un jeu</span>
                     </button>
@@ -1307,9 +1305,9 @@ export default function AdminDashboard({
                 </form>
               ) : (
                 <div className="space-y-4">
-                  <div className="flex items-center justify-between">
+                  <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-3">
                     <h3 className="font-heading font-bold text-lg text-white">Équipements et Consoles ({consoles.length})</h3>
-                    <button onClick={() => handleOpenConsoleForm()} className="py-2.5 px-4 rounded-xl btn-cyber-primary text-xs font-bold flex items-center gap-2">
+                    <button onClick={() => handleOpenConsoleForm()} className="w-full sm:w-auto py-2.5 px-4 rounded-xl btn-cyber-primary text-xs font-bold flex items-center justify-center gap-2 shrink-0">
                       <Plus className="w-4 h-4" /> <span>Ajouter un équipement</span>
                     </button>
                   </div>
@@ -1374,9 +1372,9 @@ export default function AdminDashboard({
                 </form>
               ) : (
                 <div className="space-y-4">
-                  <div className="flex items-center justify-between">
+                  <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-3">
                     <h3 className="font-heading font-bold text-lg text-white">Services et Prestations ({services.length})</h3>
-                    <button onClick={() => handleOpenServiceForm()} className="py-2.5 px-4 rounded-xl btn-cyber-primary text-xs font-bold flex items-center gap-2">
+                    <button onClick={() => handleOpenServiceForm()} className="w-full sm:w-auto py-2.5 px-4 rounded-xl btn-cyber-primary text-xs font-bold flex items-center justify-center gap-2 shrink-0">
                       <Plus className="w-4 h-4" /> <span>Ajouter un service</span>
                     </button>
                   </div>
@@ -1428,9 +1426,9 @@ export default function AdminDashboard({
                 </form>
               ) : (
                 <div className="space-y-4">
-                  <div className="flex items-center justify-between">
+                  <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-3">
                     <h3 className="font-heading font-bold text-lg text-white">Foire Aux Questions ({faqs.length})</h3>
-                    <button onClick={() => handleOpenFaqForm()} className="py-2.5 px-4 rounded-xl btn-cyber-primary text-xs font-bold flex items-center gap-2">
+                    <button onClick={() => handleOpenFaqForm()} className="w-full sm:w-auto py-2.5 px-4 rounded-xl btn-cyber-primary text-xs font-bold flex items-center justify-center gap-2 shrink-0">
                       <Plus className="w-4 h-4" /> <span>Ajouter une question</span>
                     </button>
                   </div>
@@ -1493,9 +1491,9 @@ export default function AdminDashboard({
                 </form>
               ) : (
                 <div className="space-y-4">
-                  <div className="flex items-center justify-between">
+                  <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-3">
                     <h3 className="font-heading font-bold text-lg text-white">Avis et Témoignages Clients ({reviews.length})</h3>
-                    <button onClick={() => handleOpenReviewForm()} className="py-2.5 px-4 rounded-xl btn-cyber-primary text-xs font-bold flex items-center gap-2">
+                    <button onClick={() => handleOpenReviewForm()} className="w-full sm:w-auto py-2.5 px-4 rounded-xl btn-cyber-primary text-xs font-bold flex items-center justify-center gap-2 shrink-0">
                       <Plus className="w-4 h-4" /> <span>Ajouter un avis</span>
                     </button>
                   </div>

@@ -348,8 +348,8 @@ export default function GameCatalog({
                     </div>
                   </div>
 
-                  {/* Actions (3 Modern Buttons) */}
-                  <div className="p-3.5 sm:p-4 pt-0 space-y-2">
+                  {/* Actions (Sleek Clean Buttons Layout) */}
+                  <div className="p-3 sm:p-4 pt-0 space-y-1.5 sm:space-y-2">
                     {isAdminLoggedIn && (
                       <div className="flex items-center gap-1 pt-1 border-t border-purple-500/30">
                         <button
@@ -369,33 +369,23 @@ export default function GameCatalog({
                       </div>
                     )}
 
-                    {/* WhatsApp CTA */}
+                    {/* Primary WhatsApp CTA */}
                     <button
                       onClick={() => onQuickWhatsAppRequest(game)}
-                      className="w-full py-2.5 px-3 rounded-xl btn-whatsapp-modern text-[11px] font-bold shadow transition-all flex items-center justify-center gap-1.5"
+                      className="w-full py-2 sm:py-2.5 px-3 rounded-xl btn-whatsapp-modern text-[11px] sm:text-xs font-bold shadow flex items-center justify-center gap-1.5 active:scale-95 transition-transform"
                     >
                       <MessageSquare className="w-3.5 h-3.5" />
                       <span>Commander</span>
                     </button>
 
-                    {/* Secondary Actions: Détails & Gameplay Images */}
-                    <div className="grid grid-cols-2 gap-1.5">
-                      <button
-                        onClick={() => onSelectGame(game, 'overview')}
-                        className="py-1.5 px-2 rounded-lg bg-white/[0.04] hover:bg-white/[0.08] text-slate-300 hover:text-white border border-white/[0.08] text-[10px] font-semibold flex items-center justify-center gap-1 transition-all"
-                      >
-                        <Eye className="w-3 h-3 text-slate-400" />
-                        <span>Fiche</span>
-                      </button>
-
-                      <button
-                        onClick={() => onSelectGame(game, 'screenshots')}
-                        className="py-1.5 px-2 rounded-lg bg-white/[0.04] hover:bg-white/[0.08] text-slate-300 hover:text-white border border-white/[0.08] text-[10px] font-semibold flex items-center justify-center gap-1 transition-all"
-                      >
-                        <Camera className="w-3 h-3 text-slate-400" />
-                        <span>Captures</span>
-                      </button>
-                    </div>
+                    {/* Secondary Action: Fiche & Captures */}
+                    <button
+                      onClick={() => onSelectGame(game, 'overview')}
+                      className="w-full py-1.5 px-2 rounded-lg bg-white/[0.04] hover:bg-white/[0.08] text-slate-300 hover:text-white border border-white/[0.08] text-[10px] font-semibold flex items-center justify-center gap-1.5 transition-all"
+                    >
+                      <Eye className="w-3 h-3 text-slate-400" />
+                      <span>Détails & Captures</span>
+                    </button>
                   </div>
 
                 </div>
