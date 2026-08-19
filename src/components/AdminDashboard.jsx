@@ -1,7 +1,7 @@
-import React, { useState } from 'react';
+import React, { useState, useRef } from 'react';
 import { 
   X, Settings, Plus, Trash2, Edit3, Save, Check, Gamepad2, Tag, 
-  Wrench, MessageSquare, PhoneCall, Sparkles, Image, Tv, HelpCircle, Star, HardDrive, Smartphone, Laptop, Flame 
+  Wrench, MessageSquare, PhoneCall, Sparkles, Image, Tv, HelpCircle, Star, HardDrive, Smartphone, Laptop, Flame, Upload, Camera, FolderOpen 
 } from 'lucide-react';
 
 const AVAILABLE_PLATFORMS = [
@@ -268,6 +268,152 @@ const PRESET_SERVICE_SLIDES = [
 ];
 
 const QUICK_POPULAR_GAMES = STEAM_POPULAR_GAMES;
+
+/**
+ * Reusable Image Picker with direct Gallery / Camera / PC upload + URL + Google Images 1-click search
+ */
+function ImagePickerField({ 
+  label, 
+  value, 
+  onChange, 
+  placeholder = "Coller un lien URL ou choisir un fichier...", 
+  aspect = "16/9",
+  searchTitle = "", 
+  searchType = "banner",
+  required = false
+}) {
+  const fileInputRef = useRef(null);
+  const [isProcessing, setIsProcessing] = useState(false);
+
+  const handleFileChange = (e) => {
+    const file = e.target.files?.[0];
+    if (!file) return;
+
+    if (!file.type.startsWith('image/')) {
+      alert('Veuillez sélectionner un fichier image valide (JPG, PNG, WebP, etc.).');
+      return;
+    }
+
+    setIsProcessing(true);
+    const reader = new FileReader();
+    reader.onload = (event) => {
+      const img = new window.Image();
+      img.onload = () => {
+        const maxDim = 1280;
+        let { width, height } = img;
+        if (width > maxDim || height > maxDim) {
+          if (width > height) {
+            height = Math.round((height * maxDim) / width);
+            width = maxDim;
+          } else {
+            width = Math.round((width * maxDim) / height);
+            height = maxDim;
+          }
+        }
+
+        const canvas = document.createElement('canvas');
+        canvas.width = width;
+        canvas.height = height;
+        const ctx = canvas.getContext('2d');
+        ctx.drawImage(img, 0, 0, width, height);
+
+        const compressedDataUrl = canvas.toDataURL('image/jpeg', 0.85);
+        onChange(compressedDataUrl);
+        setIsProcessing(false);
+      };
+      img.onerror = () => {
+        onChange(event.target.result);
+        setIsProcessing(false);
+      };
+      img.src = event.target.result;
+    };
+    reader.readAsDataURL(file);
+  };
+
+  const openGoogleImages = () => {
+    if (!searchTitle || !searchTitle.trim()) {
+      alert("Veuillez d'abord taper le titre dans le champ ci-dessus.");
+      return;
+    }
+    const query = searchType === 'banner' 
+      ? `${searchTitle.trim()} wallpaper 16:9 4k` 
+      : `${searchTitle.trim()} cover poster 3:4`;
+    window.open(`https://www.google.com/search?tbm=isch&q=${encodeURIComponent(query)}`, '_blank');
+  };
+
+  return (
+    <div className="space-y-2">
+      <div className="flex flex-wrap items-center justify-between gap-2">
+        <label className="block text-xs font-bold text-slate-300">
+          {label} {required && <span className="text-rose-400">*</span>}
+        </label>
+        {searchTitle && (
+          <button
+            type="button"
+            onClick={openGoogleImages}
+            className="text-[11px] text-cyan-400 hover:text-cyan-300 flex items-center gap-1 underline font-cyber"
+          >
+            🔍 Trouver sur Google Images
+          </button>
+        )}
+      </div>
+
+      <div className="flex flex-col sm:flex-row gap-2">
+        {/* URL / Path input */}
+        <input
+          type="text"
+          value={value || ''}
+          onChange={(e) => onChange(e.target.value)}
+          placeholder={placeholder}
+          required={required && !value}
+          className="flex-1 p-2.5 rounded-xl bg-slate-900 border border-slate-700 text-white text-xs sm:text-sm font-mono placeholder:font-sans placeholder:text-slate-500 focus:outline-none focus:border-cyan-400"
+        />
+
+        {/* Local File Upload Button from Phone Gallery / Camera / PC */}
+        <input
+          type="file"
+          ref={fileInputRef}
+          onChange={handleFileChange}
+          accept="image/*"
+          className="hidden"
+        />
+        <button
+          type="button"
+          onClick={() => fileInputRef.current?.click()}
+          disabled={isProcessing}
+          className="px-4 py-2.5 rounded-xl bg-purple-600/30 hover:bg-purple-600/50 text-purple-200 hover:text-white border border-purple-500/40 text-xs font-bold flex items-center justify-center gap-2 shrink-0 transition-all active:scale-95 shadow"
+        >
+          <Upload className="w-3.5 h-3.5 text-purple-300" />
+          <span>{isProcessing ? 'Compression...' : '📁 Galerie / PC'}</span>
+        </button>
+      </div>
+
+      {/* Image Preview with delete/status */}
+      {value && (
+        <div className="relative mt-2 rounded-xl overflow-hidden border border-cyan-500/30 bg-slate-950 group">
+          <img
+            src={value}
+            alt="Aperçu"
+            className={`w-full object-cover ${aspect === '3/4' ? 'max-h-56 object-contain bg-black/60' : 'h-36 sm:h-44'}`}
+          />
+          <div className="absolute top-2 right-2 flex items-center gap-1.5">
+            <span className="px-2 py-1 rounded bg-black/80 text-[10px] text-cyan-300 font-mono border border-cyan-500/40">
+              {value.startsWith('data:image') ? '📷 Fichier Galerie / Appareil' : '🔗 Image Web / URL'}
+            </span>
+            <button
+              type="button"
+              onClick={() => onChange('')}
+              className="p-1 rounded bg-rose-600 hover:bg-rose-500 text-white text-xs shadow transition-all"
+              title="Supprimer l'image"
+            >
+              <Trash2 className="w-3.5 h-3.5" />
+            </button>
+          </div>
+        </div>
+      )}
+    </div>
+  );
+}
 
 export default function AdminDashboard({ 
   onClose, 
@@ -1100,25 +1246,15 @@ export default function AdminDashboard({
                     </div>
                   </div>
 
-                  <div>
-                    <div className="flex items-center justify-between mb-1">
-                      <label className="block text-xs font-bold text-slate-300">Lien Image Paysage 16:9 (dossier /images/hero/ ou URL HD) *</label>
-                      <button
-                        type="button"
-                        onClick={() => openGoogleImages(slideFormData.title, 'banner')}
-                        className="text-xs text-cyan-400 hover:text-cyan-300 flex items-center gap-1 underline font-cyber"
-                      >
-                        🔍 Trouver l'image 16:9 sur Google Images en 1 clic
-                      </button>
-                    </div>
-                    <input type="text" required value={slideFormData.image} onChange={(e) => setSlideFormData({ ...slideFormData, image: e.target.value })} className="w-full p-2.5 rounded-xl bg-slate-900 border border-slate-700 text-white text-sm" placeholder="Ex: https://cdn.cloudflare.steamstatic.com/steam/apps/... ou lien personnalisé" />
-                    {slideFormData.image && (
-                      <div className="mt-3 relative h-40 rounded-xl overflow-hidden border border-cyan-500/30">
-                        <img src={slideFormData.image} alt="Aperçu" className="w-full h-full object-cover" />
-                        <span className="absolute bottom-2 left-2 bg-black/80 px-2 py-1 rounded text-[10px] text-cyan-300 font-mono">Aperçu Paysage Netflix</span>
-                      </div>
-                    )}
-                  </div>
+                  <ImagePickerField
+                    label="Image Paysage 16:9 (Bannière Hero Netflix)"
+                    value={slideFormData.image}
+                    onChange={(img) => setSlideFormData({ ...slideFormData, image: img })}
+                    searchTitle={slideFormData.title}
+                    searchType="banner"
+                    aspect="16/9"
+                    required
+                  />
 
                   <div>
                     <label className="block text-xs font-bold text-slate-300 mb-1">Description / Résumé du Jeu</label>
@@ -1304,24 +1440,27 @@ export default function AdminDashboard({
                     </div>
                   </div>
 
-                  <div>
-                    <div className="flex items-center justify-between mb-1">
-                      <label className="block text-xs font-bold text-slate-300">Lien Image Jaquette Catalogue 3:4 (dossier /images/catalog/ ou URL) *</label>
-                      <button
-                        type="button"
-                        onClick={() => openGoogleImages(gameFormData.title, 'cover')}
-                        className="text-xs text-cyan-400 hover:text-cyan-300 flex items-center gap-1 underline font-cyber"
-                      >
-                        🔍 Trouver l'affiche 3:4 sur Google Images en 1 clic
-                      </button>
-                    </div>
-                    <input type="text" value={gameFormData.cover} onChange={(e) => setGameFormData({ ...gameFormData, cover: e.target.value })} className="w-full p-2.5 rounded-xl bg-slate-900 border border-slate-700 text-white text-sm" placeholder="Ex: /images/catalog/gta-v-cover.jpg ou https://..." />
-                    {gameFormData.cover && (
-                      <div className="mt-2 flex items-center gap-3">
-                        <img src={gameFormData.cover} alt="Aperçu" className="w-12 h-16 object-cover rounded-lg border border-cyan-500/30" />
-                        <span className="text-xs text-slate-400">Aperçu de la jaquette</span>
-                      </div>
-                    )}
+                  <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                    <ImagePickerField
+                      label="Affiche Verticale du Jeu (Poster 3:4)"
+                      value={gameFormData.cover}
+                      onChange={(img) => setGameFormData({ ...gameFormData, cover: img })}
+                      searchTitle={gameFormData.title}
+                      searchType="cover"
+                      aspect="3/4"
+                      placeholder="Ex: https://... ou choisir une photo"
+                      required
+                    />
+
+                    <ImagePickerField
+                      label="Bannière Paysage 16:9 (Fiche Détail)"
+                      value={gameFormData.banner}
+                      onChange={(img) => setGameFormData({ ...gameFormData, banner: img })}
+                      searchTitle={gameFormData.title}
+                      searchType="banner"
+                      aspect="16/9"
+                      placeholder="Ex: https://... ou choisir une photo"
+                    />
                   </div>
 
                   <div>
@@ -1421,13 +1560,15 @@ export default function AdminDashboard({
                     </div>
                   </div>
 
-                  <div>
-                    <label className="block text-xs font-bold text-slate-300 mb-1">Lien Image Bannière Offre *</label>
-                    <input type="text" required value={dealFormData.image} onChange={(e) => setDealFormData({ ...dealFormData, image: e.target.value })} className="w-full p-2.5 rounded-xl bg-slate-900 border border-slate-700 text-white text-sm" />
-                    {dealFormData.image && (
-                      <img src={dealFormData.image} alt="Aperçu" className="mt-2 h-32 w-full object-cover rounded-xl border border-white/10" />
-                    )}
-                  </div>
+                  <ImagePickerField
+                    label="Image Bannière de l'Offre Promotionnelle"
+                    value={dealFormData.image}
+                    onChange={(img) => setDealFormData({ ...dealFormData, image: img })}
+                    searchTitle={dealFormData.title}
+                    searchType="banner"
+                    aspect="16/9"
+                    required
+                  />
 
                   <button type="submit" className="py-3 px-6 rounded-xl btn-cyber-primary font-bold text-sm flex items-center gap-2">
                     <Save className="w-4 h-4" /> <span>Sauvegarder l'Offre Flash</span>
@@ -1504,10 +1645,15 @@ export default function AdminDashboard({
                     </div>
                   </div>
 
-                  <div>
-                    <label className="block text-xs font-bold text-slate-300 mb-1">Lien Image Matériel (URL ou /images/...)</label>
-                    <input type="text" value={consoleFormData.image} onChange={(e) => setConsoleFormData({ ...consoleFormData, image: e.target.value })} className="w-full p-2.5 rounded-xl bg-slate-900 border border-slate-700 text-white text-sm" />
-                  </div>
+                  <ImagePickerField
+                    label="Image / Photo de l'Équipement ou Console"
+                    value={consoleFormData.image}
+                    onChange={(img) => setConsoleFormData({ ...consoleFormData, image: img })}
+                    searchTitle={consoleFormData.name}
+                    searchType="cover"
+                    aspect="16/9"
+                    placeholder="Ex: https://... ou choisir une photo"
+                  />
 
                   <div>
                     <label className="block text-xs font-bold text-slate-300 mb-1">Description</label>
