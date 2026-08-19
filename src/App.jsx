@@ -18,6 +18,11 @@ import FloatingWhatsApp from './components/FloatingWhatsApp';
 import MobileBottomNav from './components/MobileBottomNav';
 import Footer from './components/Footer';
 
+import GameCart from './components/GameCart';
+import QuoteGeneratorModal from './components/QuoteGeneratorModal';
+import ExpressDiagnosticQuiz from './components/ExpressDiagnosticQuiz';
+import FlashDealsSection from './components/FlashDealsSection';
+
 import { 
   getStoredGames, saveGames,
   getStoredServices, saveServices,
@@ -29,7 +34,9 @@ import {
   getStoredMessages, addStoredMessage,
   getStoredHeroSlides, saveHeroSlides,
   getStoredFaqs, saveFaqs,
-  getStoredReviews, saveReviews
+  getStoredReviews, saveReviews,
+  getStoredFlashDeals, saveFlashDeals,
+  getStoredCart, saveCart
 } from './data/storage';
 
 export default function App() {
@@ -53,6 +60,33 @@ export default function App() {
   const [favorites, setFavorites] = useState(getFavorites);
   const [recentlyViewed, setRecentlyViewed] = useState(getRecentlyViewed);
   const [messages, setMessages] = useState(getStoredMessages);
+  const [flashDeals, setFlashDeals] = useState(getStoredFlashDeals);
+  const [cart, setCart] = useState(getStoredCart);
+  const [isQuoteOpen, setIsQuoteOpen] = useState(false);
+
+  // Cart Handlers
+  const handleAddToCart = (game) => {
+    const isAlreadyInCart = cart.some(g => g.id === game.id);
+    let updated;
+    if (isAlreadyInCart) {
+      updated = cart.filter(g => g.id !== game.id);
+    } else {
+      updated = [...cart, game];
+    }
+    setCart(updated);
+    saveCart(updated);
+  };
+
+  const handleRemoveFromCart = (gameId) => {
+    const updated = cart.filter(g => g.id !== gameId);
+    setCart(updated);
+    saveCart(updated);
+  };
+
+  const handleClearCart = () => {
+    setCart([]);
+    saveCart([]);
+  };
 
   // Admin Auth state
   const [isAdminLoggedIn, setIsAdminLoggedIn] = useState(() => {
@@ -254,6 +288,7 @@ export default function App() {
         favoritesCount={favorites.length}
         onOpenSearch={() => setIsSearchOpen(true)}
         onOpenAdmin={handleOpenAdminTrigger}
+        onOpenQuote={() => setIsQuoteOpen(true)}
         isAdminLoggedIn={isAdminLoggedIn}
         onLogoutAdmin={handleAdminLogout}
         config={config}
@@ -271,17 +306,29 @@ export default function App() {
           }} 
         />
 
-        {/* 🎮 Full Game Catalog (PRIMARY FEATURE #1) */}
+        {/* 🔥 4. Offres Flash & Packs Promo avec Compte à Rebours */}
+        <div id="deals">
+          <FlashDealsSection deals={flashDeals} config={config} />
+        </div>
+
+        {/* 🎮 1. Full Game Catalog avec Multi-Jeux Pack */}
         <GameCatalog
           games={games}
           favorites={favorites}
           onToggleFavorite={handleToggleFavorite}
           onSelectGame={handleSelectGame}
           onQuickWhatsAppRequest={handleQuickWhatsAppRequest}
+          onAddToCart={handleAddToCart}
+          cart={cart}
           isAdminLoggedIn={isAdminLoggedIn}
           onOpenAdminWithGame={handleOpenAdminWithGame}
           onDeleteGame={handleDeleteGame}
         />
+
+        {/* 🤖 3. Quiz / Assistant Diagnostic Express en 3 Clics */}
+        <div id="quiz">
+          <ExpressDiagnosticQuiz config={config} onOpenQuote={() => setIsQuoteOpen(true)} />
+        </div>
 
         {/* 🔥 Popular & Categorized Carousel */}
         <PopularCarousel
@@ -337,10 +384,24 @@ export default function App() {
         }}
       />
 
+      {/* 🛒 1. Floating Multi-Game WhatsApp Cart Drawer */}
+      <GameCart
+        cart={cart}
+        onRemoveFromCart={handleRemoveFromCart}
+        onClearCart={handleClearCart}
+        config={config}
+      />
+
+      {/* 🧾 2. Instant Digital Proforma Quote Generator Modal */}
+      <QuoteGeneratorModal
+        isOpen={isQuoteOpen}
+        onClose={() => setIsQuoteOpen(false)}
+        services={services}
+        config={config}
+      />
+
       {/* Floating WhatsApp Action Drawer */}
       <FloatingWhatsApp config={config} />
-
-
 
       {/* Mobile Bottom Navigation Bar (Sticky Thumb Navigation) */}
       <MobileBottomNav
@@ -355,7 +416,7 @@ export default function App() {
         config={config}
       />
 
-      {/* Game Detail Modal */}
+      {/* 🎮 6. Game Detail Modal avec Similar Games & Cart Button */}
       {selectedGame && (
         <GameDetailModal
           game={selectedGame}
@@ -365,6 +426,8 @@ export default function App() {
           onToggleFavorite={handleToggleFavorite}
           onSendWhatsAppRequest={handleModalWhatsAppRequest}
           onSelectGame={handleSelectGame}
+          onAddToCart={handleAddToCart}
+          isInCart={cart.some(g => g.id === selectedGame.id)}
           initialTab={selectedGameTab}
         />
       )}

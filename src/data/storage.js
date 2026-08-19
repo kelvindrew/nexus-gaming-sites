@@ -6,29 +6,34 @@ import {
   INITIAL_FAQS, 
   INITIAL_REVIEWS, 
   INITIAL_CONFIG,
-  INITIAL_HERO_SLIDES
+  INITIAL_HERO_SLIDES,
+  INITIAL_FLASH_DEALS
 } from './initialData.js';
 
 const STORAGE_KEYS = {
-  GAMES: 'nexus_games_v20',
-  SERVICES: 'nexus_services_v20',
-  CONSOLES: 'nexus_consoles_v20',
-  PACKS: 'nexus_packs_v20',
-  CONFIG: 'nexus_config_v20',
-  FAVORITES: 'nexus_favorites_v20',
-  RECENTLY_VIEWED: 'nexus_recently_viewed_v20',
-  MESSAGES: 'nexus_admin_messages_v20',
-  HERO_SLIDES: 'nexus_hero_slides_v20',
-  FAQS: 'nexus_faqs_v20',
-  REVIEWS: 'nexus_reviews_v20'
+  GAMES: 'nexus_games_v21',
+  SERVICES: 'nexus_services_v21',
+  CONSOLES: 'nexus_consoles_v21',
+  PACKS: 'nexus_packs_v21',
+  CONFIG: 'nexus_config_v21',
+  FAVORITES: 'nexus_favorites_v21',
+  RECENTLY_VIEWED: 'nexus_recently_viewed_v21',
+  MESSAGES: 'nexus_admin_messages_v21',
+  HERO_SLIDES: 'nexus_hero_slides_v21',
+  FAQS: 'nexus_faqs_v21',
+  REVIEWS: 'nexus_reviews_v21',
+  FLASH_DEALS: 'nexus_flash_deals_v21',
+  CART: 'nexus_cart_v21'
 };
 
 // Clear legacy caches if present
 try {
   localStorage.removeItem('nexus_config_v18');
   localStorage.removeItem('nexus_config_v19');
+  localStorage.removeItem('nexus_config_v20');
   localStorage.removeItem('nexus_games_v18');
   localStorage.removeItem('nexus_games_v19');
+  localStorage.removeItem('nexus_games_v20');
 } catch (e) {
   console.log('Cache cleanup:', e);
 }
@@ -146,4 +151,22 @@ export const getStoredReviews = () => {
 
 export const saveReviews = (reviews) => {
   localStorage.setItem(STORAGE_KEYS.REVIEWS, JSON.stringify(reviews));
+};
+
+export const getStoredFlashDeals = () => {
+  const saved = localStorage.getItem(STORAGE_KEYS.FLASH_DEALS);
+  return saved ? JSON.parse(saved) : INITIAL_FLASH_DEALS;
+};
+
+export const saveFlashDeals = (deals) => {
+  localStorage.setItem(STORAGE_KEYS.FLASH_DEALS, JSON.stringify(deals));
+};
+
+export const getStoredCart = () => {
+  const saved = localStorage.getItem(STORAGE_KEYS.CART);
+  return saved ? JSON.parse(saved) : [];
+};
+
+export const saveCart = (cart) => {
+  localStorage.setItem(STORAGE_KEYS.CART, JSON.stringify(cart));
 };

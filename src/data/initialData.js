@@ -119,7 +119,7 @@ export const INITIAL_SERVICES = [
     title: 'Déverrouillage Téléphones & FRP',
     category: 'Mobile',
     badge: 'Déblocage Réseau',
-    price: '25 €',
+    price: '15 $',
     iconName: 'Smartphone',
     description: 'Déblocage réseau tout opérateur, déverrouillage de compte Google FRP après réinitialisation et suppression de code/schéma oublié.',
     details: [
@@ -135,7 +135,7 @@ export const INITIAL_SERVICES = [
     title: 'Maintenance PC & Formatage',
     category: 'PC',
     badge: 'Hardware & OS',
-    price: '35 €',
+    price: '15 $',
     iconName: 'Laptop',
     description: 'Formatage et réinstallation propre de Windows 10/11 Pro avec pilotes officiels, dépoussiérage et changement de pâte thermique.',
     details: [
@@ -151,7 +151,7 @@ export const INITIAL_SERVICES = [
     title: 'Installation de Jeux PC & Config',
     category: 'PC',
     badge: 'Optimisé 4K / FPS',
-    price: '25 €',
+    price: '10 $',
     iconName: 'Gamepad2',
     description: 'Installation et optimisation de la bibliothèque de jeux PC possédés légalement. Configuration des pilotes DirectX, Visual C++, GPU Nvidia/AMD et répertoriage SSD.',
     details: [
@@ -167,7 +167,7 @@ export const INITIAL_SERVICES = [
     title: 'Vente Licences & Logiciels',
     category: 'Software',
     badge: 'Clés Officielles',
-    price: '20 €',
+    price: '10 $',
     iconName: 'KeyRound',
     description: 'Vente et activation de clés officielles pour Windows 11/10 Pro, Microsoft Office, Antivirus premium et logiciels de création.',
     details: [
@@ -183,7 +183,7 @@ export const INITIAL_SERVICES = [
     title: 'Déverrouillage & Custom Firmware',
     category: 'Modification',
     badge: 'Populaire',
-    price: '49 €',
+    price: '20 $',
     iconName: 'Unlock',
     description: 'Modification et jailbreak sécurisé des consoles compatibles (PS4 GoldHEN, PS3 CFW/HEN, Switch Atmosphere, Xbox Dev Mode).',
     details: [
@@ -196,12 +196,12 @@ export const INITIAL_SERVICES = [
   },
   {
     id: 'game-setup',
-    title: 'Installation de Jeux Légitimes',
+    title: 'Installation de Jeux & Remplissage',
     category: 'Jeux',
     badge: 'Service Clé en Main',
-    price: '29 €',
+    price: '15 $',
     iconName: 'Gamepad2',
-    description: 'Installation, transfert et configuration de la bibliothèque de jeux possédés légalement par le client sur son stockage interne ou externe.',
+    description: 'Installation, transfert et configuration de votre sélection de jeux sur disque dur interne ou externe.',
     details: [
       'Copie et transfert haute vitesse sur SSD/HDD',
       'Mise à jour des jeux au dernier patch',
@@ -215,7 +215,7 @@ export const INITIAL_SERVICES = [
     title: 'Logiciels & Homebrew Store',
     category: 'Software',
     badge: 'Custom Apps',
-    price: '35 €',
+    price: '10 $',
     iconName: 'Cpu',
     description: 'Installation d\'applications indépendantes, lecteurs multimédia (Kodi, Apollo), gestionnaires de fichiers (FTP, WebMAN) et émulateurs.',
     details: [
@@ -231,7 +231,7 @@ export const INITIAL_SERVICES = [
     title: 'Nettoyage & Pâte Thermique Console',
     category: 'Hardware',
     badge: 'Silencieux & Frais',
-    price: '39 €',
+    price: '15 $',
     iconName: 'Wrench',
     description: 'Dépoussiérage intégral aux ultrasons et remplacement de la pâte thermique / métal liquide pour réduire le bruit des ventilateurs.',
     details: [
@@ -247,7 +247,7 @@ export const INITIAL_SERVICES = [
     title: 'Dépannage & Restauration Système',
     category: 'Réparation',
     badge: 'Urgence',
-    price: '30 €',
+    price: '15 $',
     iconName: 'ShieldAlert',
     description: 'Résolution des boucles de démarrage, briques partielles, erreurs de mise à jour et remplacement de disque dur défectueux.',
     details: [
@@ -305,7 +305,7 @@ export const INITIAL_PACKS = {
       id: 'pack-ps4-goldhen',
       name: 'Formule PS4 GoldHEN VIP',
       target: 'PlayStation 4 (FAT / Slim / Pro)',
-      price: '49 €',
+      price: '20 $',
       badge: 'Bestseller Atelier',
       features: [
         'Déverrouillage GoldHEN / PPPwn stable',
@@ -319,7 +319,7 @@ export const INITIAL_PACKS = {
       id: 'pack-ps3-ultimate',
       name: 'Pack Rétrogaming PS3 Evilnat',
       target: 'PlayStation 3 (Toutes versions)',
-      price: '39 €',
+      price: '15 $',
       badge: '100% Rétro',
       features: [
         'Custom Firmware Evilnat 4.91 / PS3HEN',
@@ -333,7 +333,7 @@ export const INITIAL_PACKS = {
       id: 'pack-pc-gaming-pro',
       name: 'Forfait PC Gaming Master',
       target: 'PC Gamer & PC Portables',
-      price: '59 €',
+      price: '25 $',
       badge: 'Performance Max',
       features: [
         'Formatage propre Windows 11 Pro 64-bit',
@@ -347,7 +347,7 @@ export const INITIAL_PACKS = {
       id: 'pack-phone-unlock-frp',
       name: 'Forfait Déblocage Smartphone & FRP',
       target: 'Samsung / Xiaomi / Tecno / Infinix / iPhone',
-      price: '25 €',
+      price: '15 $',
       badge: 'Flash 30min',
       features: [
         'Contournement Compte Google (Bypass FRP)',
@@ -361,8 +361,8 @@ export const INITIAL_PACKS = {
   gamePacks: [
     {
       id: 'game-single',
-      name: 'Unité (1 Jeu ou 1 Logiciel)',
-      price: '10 €',
+      name: 'Unité (1 Jeu)',
+      price: '3 $',
       unit: '/ jeu',
       features: [
         'Installation propre sur SSD/HDD/PC',
@@ -372,43 +372,85 @@ export const INITIAL_PACKS = {
     },
     {
       id: 'game-pack-5',
-      name: 'Pack 5 Jeux / Logiciels',
-      price: '35 €',
-      unit: 'pack (7€/unité)',
+      name: 'Pack 5 Jeux',
+      price: '12 $',
+      unit: 'pack (2.4$/jeu)',
       popular: true,
       features: [
-        'Choix de 5 jeux ou 5 logiciels au choix',
-        'Installation des majs, DLCs et activations',
+        'Choix de 5 jeux au choix',
+        'Installation des majs et DLCs',
         'Transfert haute vitesse offert',
-        'Gain de 15€'
+        'Économie de 3$'
       ]
     },
     {
       id: 'game-pack-10',
-      name: 'Pack 10 Jeux Ultimate + Software',
-      price: '60 €',
-      unit: 'pack (6€/unité)',
+      name: 'Pack 10 Jeux',
+      price: '20 $',
+      unit: 'pack (2$/jeu)',
       features: [
-        'Choix de 10 jeux ou logiciels au choix',
-        'Optimisation espace disque & RAM',
-        'Licences Windows / Office offertes',
+        'Choix de 10 jeux au choix',
+        'Optimisation espace disque',
+        'Dépoussiérage rapide offert',
         'Assistance d\'installation dédiée'
       ]
     },
     {
       id: 'game-custom-storage',
-      name: 'Disque Dur / PC Sur-Mesure (1TB/2TB)',
-      price: '99 €',
-      unit: 'sur devis',
+      name: 'Remplissage Disque Dur (500Go / 1To / 2To)',
+      price: '35 $',
+      unit: 'forfait 1 To',
       features: [
-        'Consoles ou PC remplis sur mesure',
-        'Fourniture ou préparation de votre HDD/SSD',
-        'Sélection personnalisée intégrale',
-        'Support VIP dédié'
+        '500 Go (~12 jeux) : 20 $',
+        '1 To (~30 jeux) : 35 $',
+        '2 To (~70 jeux) : 60 $',
+        'Support & transfert ultra-rapide'
       ]
     }
   ]
 };
+
+export const INITIAL_FLASH_DEALS = [
+  {
+    id: 'deal-ps4-1tb',
+    title: 'Pack Flash PS4 Pro & Slim 1 To',
+    subtitle: 'Remplissage 1 To (~30 Jeux) + Dépoussiérage & Pâte Thermique Offert',
+    badge: '🔥 OFFRE SPÉCIALE WEEK-END',
+    originalPrice: 50,
+    promoPrice: 35,
+    discountPercentage: 30,
+    expiresInHours: 48,
+    image: 'https://images.unsplash.com/photo-1507457379470-08b800bebc67?q=80&w=800&auto=format&fit=crop',
+    platforms: ['PS4 Fat', 'PS4 Slim', 'PS4 Pro'],
+    features: ['30 Jeux au choix', 'Pâte thermique Arctic MX-4', 'Nettoyage ventilateur inclus', 'Garantie 1 Mois']
+  },
+  {
+    id: 'deal-ps3-hen',
+    title: 'Pack Flash PS3 Rétro Arcade',
+    subtitle: 'Flash HEN 4.91 + 15 Jeux PS3/PS2/PS1 + Boutique PKGi Directe',
+    badge: '⚡ FLASH DEAL RDC',
+    originalPrice: 25,
+    promoPrice: 15,
+    discountPercentage: 40,
+    expiresInHours: 24,
+    image: 'https://images.unsplash.com/photo-1526509867162-5b0c0d1b4b33?q=80&w=800&auto=format&fit=crop',
+    platforms: ['PS3 Fat', 'PS3 Slim', 'PS3 Super Slim'],
+    features: ['Flash HEN 4.91', 'Boutique PKGi en direct', 'Contrôle ventilateur WebMAN', '15 Jeux installés']
+  },
+  {
+    id: 'deal-pc-gamer',
+    title: 'Pack Renaissance PC & Laptop',
+    subtitle: 'Formatage Windows 11 Pro + Suite Office 2024 + Nettoyage + Pâte Thermique',
+    badge: '🏆 PACK MASTER PC',
+    originalPrice: 35,
+    promoPrice: 20,
+    discountPercentage: 42,
+    expiresInHours: 72,
+    image: 'https://images.unsplash.com/photo-1587202372775-e229f172b9d7?q=80&w=800&auto=format&fit=crop',
+    platforms: ['PC Portable', 'PC Fixe Gaming', 'Toutes Marques'],
+    features: ['Windows 11 Pro activé', 'Pack Office Pro complet', 'Nettoyage & MX-4', 'Pilotes optimisés']
+  }
+];
 
 export const INITIAL_FAQS = [
   {

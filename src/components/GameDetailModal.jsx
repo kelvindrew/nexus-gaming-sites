@@ -10,6 +10,8 @@ export default function GameDetailModal({
   onToggleFavorite, 
   onSendWhatsAppRequest,
   onSelectGame,
+  onAddToCart,
+  isInCart = false,
   initialTab = 'overview'
 }) {
   const [selectedConsole, setSelectedConsole] = useState(
@@ -562,7 +564,7 @@ export default function GameDetailModal({
         </div>
 
         {/* STICKY BOTTOM ACTION BAR (Mobile & Desktop) */}
-        <div className="p-3 sm:p-5 bg-black/90 border-t border-white/[0.08] flex items-center justify-between gap-3 shrink-0">
+        <div className="p-3 sm:p-5 bg-black/90 border-t border-white/[0.08] flex items-center justify-between gap-2.5 shrink-0">
           <button
             onClick={() => onToggleFavorite(game.id)}
             className={`p-3 rounded-2xl border transition-all flex items-center gap-2 text-xs font-bold ${
@@ -570,17 +572,32 @@ export default function GameDetailModal({
                 ? 'bg-rose-500/20 text-rose-400 border-rose-500/40'
                 : 'bg-white/[0.04] text-slate-300 border-white/10 hover:text-rose-400'
             }`}
+            title="Favoris"
           >
             <Heart className={`w-4 h-4 ${isFavorite ? 'fill-rose-500 text-rose-500' : ''}`} />
-            <span className="hidden sm:inline">{isFavorite ? 'Dans vos favoris' : 'Ajouter aux favoris'}</span>
+            <span className="hidden md:inline">{isFavorite ? 'Favori' : 'Favori'}</span>
           </button>
+
+          {onAddToCart && (
+            <button
+              onClick={() => onAddToCart(game)}
+              className={`py-3.5 px-4 rounded-2xl border font-bold text-xs sm:text-sm flex items-center justify-center gap-1.5 transition-all shadow ${
+                isInCart
+                  ? 'bg-emerald-500/20 text-emerald-300 border-emerald-400/50'
+                  : 'bg-white/[0.06] hover:bg-white/[0.12] text-white border-white/15'
+              }`}
+            >
+              <CheckCircle2 className={`w-4 h-4 ${isInCart ? 'text-emerald-400' : 'text-slate-400'}`} />
+              <span>{isInCart ? 'Dans mon Pack' : '+ Ajouter au Pack'}</span>
+            </button>
+          )}
 
           <button
             onClick={handleWhatsAppClick}
-            className="flex-1 py-3.5 px-4 rounded-xl btn-whatsapp font-bold text-xs sm:text-sm flex items-center justify-center gap-2 shadow-xl"
+            className="flex-1 py-3.5 px-4 rounded-2xl btn-whatsapp-modern font-bold text-xs sm:text-sm flex items-center justify-center gap-2 shadow-xl"
           >
             <MessageSquare className="w-4 h-4" />
-            <span>Demander pour {selectedConsole} sur WhatsApp</span>
+            <span className="truncate">Commander sur WhatsApp</span>
           </button>
         </div>
 

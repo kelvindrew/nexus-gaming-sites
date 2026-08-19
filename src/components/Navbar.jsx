@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { 
   Menu, X, Search, Heart, ShieldCheck, 
-  Gamepad2, LogOut, Phone
+  Gamepad2, LogOut, Phone, FileText, ShoppingBag, Sparkles
 } from 'lucide-react';
 
 export default function Navbar({ 
@@ -10,9 +10,10 @@ export default function Navbar({
   favoritesCount, 
   onOpenSearch, 
   onOpenAdmin,
+  onOpenQuote,
   isAdminLoggedIn,
   onLogoutAdmin,
-  config
+  config 
 }) {
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
   const [scrolled, setScrolled] = useState(false);
@@ -27,10 +28,10 @@ export default function Navbar({
 
   const navLinks = [
     { id: 'catalog', label: 'Catalogue Jeux' },
+    { id: 'deals', label: 'Offres Flash' },
+    { id: 'quiz', label: 'Diagnostic' },
     { id: 'services', label: 'Services Atelier' },
-    { id: 'compatibility', label: 'Diagnostic' },
     { id: 'pack-builder', label: 'Pack Sur-Mesure' },
-    { id: 'consoles', label: 'Consoles' },
     { id: 'faq', label: 'FAQ' },
     { id: 'contact', label: 'Contact' }
   ];
@@ -88,6 +89,18 @@ export default function Navbar({
           {/* Right Clean Action Controls (Zero clutter, pure floating icons & WhatsApp) */}
           <div className="flex items-center gap-2 sm:gap-3">
             
+            {/* Devis Proforma Button */}
+            {onOpenQuote && (
+              <button
+                onClick={onOpenQuote}
+                className="p-2.5 sm:p-3 sm:px-4 rounded-full bg-blue-600/20 hover:bg-blue-600/30 backdrop-blur-xl border border-blue-400/30 text-blue-300 hover:text-white transition-all shadow-lg active:scale-95 flex items-center gap-1.5 text-xs font-bold"
+                title="Générateur de Devis Instantané"
+              >
+                <FileText className="w-4 h-4 text-blue-400" />
+                <span className="hidden md:inline">Devis Proforma</span>
+              </button>
+            )}
+
             {/* Global Search Icon Button */}
             <button
               onClick={onOpenSearch}
