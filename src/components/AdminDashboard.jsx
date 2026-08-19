@@ -814,9 +814,30 @@ export default function AdminDashboard({
           </button>
         </div>
 
-        {/* Admin Navigation Tabs */}
-        <div className="flex items-center gap-2 p-3 sm:px-6 sm:py-3.5 bg-slate-950/90 border-b border-slate-800 text-xs sm:text-sm font-bold overflow-x-auto custom-scrollbar shrink-0 shadow-inner">
+        {/* Mobile Quick Dropdown Selector for instant switching without scrolling */}
+        <div className="sm:hidden px-4 py-2.5 bg-[#070a12] border-b border-slate-800 flex items-center justify-between gap-2.5 shrink-0">
+          <span className="text-[11px] font-bold text-slate-400 uppercase tracking-wider shrink-0">Section :</span>
+          <select
+            value={activeTab}
+            onChange={(e) => setActiveTab(e.target.value)}
+            className="flex-1 bg-slate-900 border border-purple-500/40 text-white font-bold text-xs py-2 px-3 rounded-xl focus:outline-none focus:border-cyan-400"
+          >
+            <option value="slides">🎬 Hero Netflix ({heroSlides.length})</option>
+            <option value="games">🎮 Jeux Vidéo ({games.length})</option>
+            <option value="deals">🔥 Offres Flash ({flashDeals.length})</option>
+            <option value="consoles">💾 Équipements ({consoles.length})</option>
+            <option value="services">🛠️ Services Atelier ({services.length})</option>
+            <option value="faqs">❓ FAQ ({faqs.length})</option>
+            <option value="reviews">⭐ Avis Clients ({reviews.length})</option>
+            <option value="messages">💬 Messages Reçus ({messages.length})</option>
+            <option value="config">⚙️ Contact & Infos Site</option>
+          </select>
+        </div>
+
+        {/* Admin Navigation Tabs (Scrollable Pills) */}
+        <div className="flex items-center gap-2 p-2.5 sm:px-6 sm:py-3.5 bg-slate-950/90 border-b border-slate-800 text-xs sm:text-sm font-bold overflow-x-auto custom-scrollbar shrink-0 shadow-inner">
           <button
+            type="button"
             onClick={() => { setActiveTab('slides'); setEditingSlide(null); }}
             className={`px-3.5 py-2 sm:px-4 sm:py-2.5 rounded-xl flex items-center gap-2 whitespace-nowrap transition-all shrink-0 border ${
               activeTab === 'slides' 
@@ -829,6 +850,7 @@ export default function AdminDashboard({
           </button>
 
           <button
+            type="button"
             onClick={() => { setActiveTab('games'); setEditingGame(null); }}
             className={`px-3.5 py-2 sm:px-4 sm:py-2.5 rounded-xl flex items-center gap-2 whitespace-nowrap transition-all shrink-0 border ${
               activeTab === 'games' 
@@ -841,6 +863,7 @@ export default function AdminDashboard({
           </button>
 
           <button
+            type="button"
             onClick={() => { setActiveTab('deals'); setEditingDeal(null); }}
             className={`px-3.5 py-2 sm:px-4 sm:py-2.5 rounded-xl flex items-center gap-2 whitespace-nowrap transition-all shrink-0 border ${
               activeTab === 'deals' 
@@ -853,6 +876,7 @@ export default function AdminDashboard({
           </button>
 
           <button
+            type="button"
             onClick={() => { setActiveTab('consoles'); setEditingConsole(null); }}
             className={`px-3.5 py-2 sm:px-4 sm:py-2.5 rounded-xl flex items-center gap-2 whitespace-nowrap transition-all shrink-0 border ${
               activeTab === 'consoles' 
@@ -865,6 +889,7 @@ export default function AdminDashboard({
           </button>
 
           <button
+            type="button"
             onClick={() => { setActiveTab('services'); setEditingService(null); }}
             className={`px-3.5 py-2 sm:px-4 sm:py-2.5 rounded-xl flex items-center gap-2 whitespace-nowrap transition-all shrink-0 border ${
               activeTab === 'services' 
@@ -877,6 +902,7 @@ export default function AdminDashboard({
           </button>
 
           <button
+            type="button"
             onClick={() => { setActiveTab('faqs'); setEditingFaq(null); }}
             className={`px-3.5 py-2 sm:px-4 sm:py-2.5 rounded-xl flex items-center gap-2 whitespace-nowrap transition-all shrink-0 border ${
               activeTab === 'faqs' 
@@ -889,6 +915,7 @@ export default function AdminDashboard({
           </button>
 
           <button
+            type="button"
             onClick={() => { setActiveTab('reviews'); setEditingReview(null); }}
             className={`px-3.5 py-2 sm:px-4 sm:py-2.5 rounded-xl flex items-center gap-2 whitespace-nowrap transition-all shrink-0 border ${
               activeTab === 'reviews' 
@@ -901,6 +928,7 @@ export default function AdminDashboard({
           </button>
 
           <button
+            type="button"
             onClick={() => setActiveTab('messages')}
             className={`px-3.5 py-2 sm:px-4 sm:py-2.5 rounded-xl flex items-center gap-2 whitespace-nowrap transition-all shrink-0 border ${
               activeTab === 'messages' 
@@ -913,6 +941,7 @@ export default function AdminDashboard({
           </button>
 
           <button
+            type="button"
             onClick={() => setActiveTab('config')}
             className={`px-3.5 py-2 sm:px-4 sm:py-2.5 rounded-xl flex items-center gap-2 whitespace-nowrap transition-all shrink-0 border ${
               activeTab === 'config' 
@@ -1706,47 +1735,68 @@ export default function AdminDashboard({
           {/* TAB 6: MESSAGES */}
           {activeTab === 'messages' && (
             <div className="space-y-4">
-              <h3 className="font-heading font-bold text-lg text-white">Demandes Clients Récentes ({messages.length})</h3>
-              <div className="space-y-3">
-                {messages.map((m) => (
-                  <div key={m.id} className="glass-panel p-4 rounded-xl border-slate-800 space-y-2">
-                    <div className="flex items-center justify-between text-xs">
-                      <span className="font-bold text-cyan-300">{m.name} ({m.phone})</span>
-                      <span className="text-slate-400">{m.date}</span>
-                    </div>
-                    <div className="text-xs text-slate-300 space-y-1">
-                      <p><strong>Console :</strong> {m.console}</p>
-                      <p><strong>Service :</strong> {m.service}</p>
-                      {m.game && <p><strong>Jeu :</strong> {m.game}</p>}
-                      {m.message && <p className="italic text-slate-400">"{m.message}"</p>}
-                    </div>
-                  </div>
-                ))}
+              <div className="flex items-center justify-between">
+                <div>
+                  <h3 className="font-heading font-bold text-lg text-white">Demandes Clients & Devis ({messages.length})</h3>
+                  <p className="text-xs text-slate-400">Historique des commandes et demandes reçues depuis le site.</p>
+                </div>
               </div>
+
+              {messages.length === 0 ? (
+                <div className="p-8 text-center glass-panel rounded-2xl border-slate-800 space-y-3">
+                  <div className="w-14 h-14 rounded-2xl bg-slate-900 border border-slate-800 flex items-center justify-center mx-auto text-slate-500">
+                    <MessageSquare className="w-7 h-7 text-rose-400" />
+                  </div>
+                  <h4 className="text-white font-bold text-sm">Aucun message pour le moment</h4>
+                  <p className="text-xs text-slate-400 max-w-xs mx-auto">
+                    Toutes les demandes de packs, devis et diagnostics générés par les clients apparaîtront ici.
+                  </p>
+                </div>
+              ) : (
+                <div className="space-y-3">
+                  {messages.map((m) => (
+                    <div key={m.id} className="glass-panel p-4 rounded-xl border-slate-800 space-y-2">
+                      <div className="flex items-center justify-between text-xs">
+                        <span className="font-bold text-cyan-300">{m.name} ({m.phone})</span>
+                        <span className="text-slate-400 font-mono">{m.date}</span>
+                      </div>
+                      <div className="text-xs text-slate-300 space-y-1">
+                        <p><strong>Console :</strong> {m.console}</p>
+                        <p><strong>Service :</strong> {m.service}</p>
+                        {m.game && <p><strong>Jeu :</strong> {m.game}</p>}
+                        {m.message && <p className="italic text-slate-400">"{m.message}"</p>}
+                      </div>
+                    </div>
+                  ))}
+                </div>
+              )}
             </div>
           )}
 
           {/* TAB 7: CONFIG & SITE INFOS */}
           {activeTab === 'config' && (
-            <form onSubmit={handleSaveConfig} className="glass-panel p-6 rounded-2xl border-slate-800 space-y-4">
-              <h3 className="font-heading font-bold text-lg text-white">Informations Générales du Site</h3>
+            <form onSubmit={handleSaveConfig} className="glass-panel p-6 rounded-2xl border-slate-800 space-y-5">
+              <div>
+                <h3 className="font-heading font-bold text-lg text-white">Informations Générales & Contact</h3>
+                <p className="text-xs text-slate-400">Configurez le numéro WhatsApp pour recevoir les commandes et modifier les textes du site.</p>
+              </div>
               
               <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
                 <div>
                   <label className="block text-xs font-bold text-slate-300 mb-1">Numéro WhatsApp de Réception *</label>
-                  <input type="text" value={configForm.phone || ''} onChange={(e) => setConfigForm({ ...configForm, phone: e.target.value })} className="w-full p-2.5 rounded-xl bg-slate-900 border border-slate-700 text-white text-sm" />
+                  <input type="text" required value={configForm.phone || ''} onChange={(e) => setConfigForm({ ...configForm, phone: e.target.value })} className="w-full p-2.5 rounded-xl bg-slate-900 border border-slate-700 text-white text-sm font-mono" placeholder="Ex: +243821780077" />
                 </div>
                 <div>
                   <label className="block text-xs font-bold text-slate-300 mb-1">Texte Bannière Supérieure Promo</label>
-                  <input type="text" value={configForm.promoBanner || ''} onChange={(e) => setConfigForm({ ...configForm, promoBanner: e.target.value })} className="w-full p-2.5 rounded-xl bg-slate-900 border border-slate-700 text-white text-sm" />
+                  <input type="text" value={configForm.promoBanner || ''} onChange={(e) => setConfigForm({ ...configForm, promoBanner: e.target.value })} className="w-full p-2.5 rounded-xl bg-slate-900 border border-slate-700 text-white text-sm" placeholder="Ex: ⚡ PROMO FLASH : -15% sur la Maintenance" />
                 </div>
                 <div>
                   <label className="block text-xs font-bold text-slate-300 mb-1">Texte Localisation / Prise en Charge</label>
-                  <input type="text" value={configForm.location || ''} onChange={(e) => setConfigForm({ ...configForm, location: e.target.value })} className="w-full p-2.5 rounded-xl bg-slate-900 border border-slate-700 text-white text-sm" />
+                  <input type="text" value={configForm.location || ''} onChange={(e) => setConfigForm({ ...configForm, location: e.target.value })} className="w-full p-2.5 rounded-xl bg-slate-900 border border-slate-700 text-white text-sm" placeholder="Ex: Atelier & Dépôt sécurisé (Kinshasa)" />
                 </div>
                 <div>
                   <label className="block text-xs font-bold text-slate-300 mb-1">Horaires d'Ouverture</label>
-                  <input type="text" value={configForm.hours || ''} onChange={(e) => setConfigForm({ ...configForm, hours: e.target.value })} className="w-full p-2.5 rounded-xl bg-slate-900 border border-slate-700 text-white text-sm" />
+                  <input type="text" value={configForm.hours || ''} onChange={(e) => setConfigForm({ ...configForm, hours: e.target.value })} className="w-full p-2.5 rounded-xl bg-slate-900 border border-slate-700 text-white text-sm" placeholder="Ex: Lun - Sam : 08h00 - 20h00" />
                 </div>
               </div>
 
