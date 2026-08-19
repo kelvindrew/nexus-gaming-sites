@@ -1,32 +1,21 @@
-const CACHE_NAME = 'nexus-gaming-v4';
-
+// Self-destruct and purge all cached assets
 self.addEventListener('install', (event) => {
   self.skipWaiting();
 });
 
 self.addEventListener('activate', (event) => {
   event.waitUntil(
-    caches.keys().then((cacheNames) => {
-      return Promise.all(
-        cacheNames.map((cache) => caches.delete(cache))
-      );
+    caches.keys().then((keys) => {
+      return Promise.all(keys.map((key) => caches.delete(key)));
+    }).then(() => {
+      return self.registration.unregister();
+    }).then(() => {
+      return self.clients.claim();
     })
   );
-  self.clients.claim();
 });
 
-// Network-first strategy to prevent stale code lock
 self.addEventListener('fetch', (event) => {
-  if (event.request.method !== 'GET') return;
-  event.respondWith(
-    fetch(event.request)
-      .then((response) => {
-        if (response && response.status === 200) {
-          const responseToCache = response.clone();
-          caches.open(CACHE_NAME).then((cache) => cache.put(event.request, responseToCache));
-        }
-        return response;
-      })
-      .catch(() => caches.match(event.request))
-  );
+  // Always go straight to network
+  event.respondWith(fetch(event.request));
 });
