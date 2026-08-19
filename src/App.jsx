@@ -271,6 +271,11 @@ export default function App() {
     saveConfig(newConfig);
   };
 
+  const handleUpdateFlashDeals = (newDeals) => {
+    setFlashDeals(newDeals);
+    saveFlashDeals(newDeals);
+  };
+
   // Search Results inside Modal
   const searchFilteredGames = games.filter(g => 
     g.title.toLowerCase().includes(searchQuery.toLowerCase()) ||
@@ -452,6 +457,8 @@ export default function App() {
           onUpdateServices={handleUpdateServices}
           heroSlides={heroSlides}
           onUpdateHeroSlides={handleUpdateHeroSlides}
+          flashDeals={flashDeals}
+          onUpdateFlashDeals={handleUpdateFlashDeals}
           faqs={faqs}
           onUpdateFaqs={handleUpdateFaqs}
           reviews={reviews}

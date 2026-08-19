@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import { 
   X, Settings, Plus, Trash2, Edit3, Save, Check, Gamepad2, Tag, 
-  Wrench, MessageSquare, PhoneCall, Sparkles, Image, Tv, HelpCircle, Star, HardDrive, Smartphone, Laptop 
+  Wrench, MessageSquare, PhoneCall, Sparkles, Image, Tv, HelpCircle, Star, HardDrive, Smartphone, Laptop, Flame 
 } from 'lucide-react';
 
 const AVAILABLE_PLATFORMS = [
@@ -277,17 +277,34 @@ export default function AdminDashboard({
   onUpdateConsoles,
   services, 
   onUpdateServices,
+  heroSlides = [],
+  onUpdateHeroSlides,
+  flashDeals = [],
+  onUpdateFlashDeals,
   faqs,
   onUpdateFaqs,
   reviews,
   onUpdateReviews,
   messages,
   config,
-  onUpdateConfig,
-  heroSlides = [],
-  onUpdateHeroSlides
+  onUpdateConfig
 }) {
-  const [activeTab, setActiveTab] = useState('slides'); // 'slides' | 'games' | 'consoles' | 'services' | 'faqs' | 'reviews' | 'messages' | 'config'
+  const [activeTab, setActiveTab] = useState('slides'); // 'slides' | 'games' | 'deals' | 'consoles' | 'services' | 'faqs' | 'reviews' | 'messages' | 'config'
+  
+  // Flash Deals editing state
+  const [editingDeal, setEditingDeal] = useState(null);
+  const [dealFormData, setDealFormData] = useState({
+    id: '',
+    title: '',
+    subtitle: '',
+    badge: '🔥 OFFRE SPÉCIALE',
+    originalPrice: 45,
+    promoPrice: 35,
+    discountPercentage: 22,
+    image: '',
+    platforms: ['PS5', 'PS4'],
+    features: []
+  });
   
   // Game editing form state
   const [editingGame, setEditingGame] = useState(null);
@@ -718,6 +735,46 @@ export default function AdminDashboard({
     setEditingReview(null);
   };
 
+  // Flash Deals Handlers
+  const handleOpenDealForm = (deal = null) => {
+    if (deal) {
+      setEditingDeal(deal.id);
+      setDealFormData(deal);
+    } else {
+      setEditingDeal('NEW');
+      setDealFormData({
+        id: `deal-${Date.now()}`,
+        title: '',
+        subtitle: '',
+        badge: '🔥 OFFRE SPÉCIALE',
+        originalPrice: 45,
+        promoPrice: 35,
+        discountPercentage: 22,
+        image: 'https://images.unsplash.com/photo-1507457379470-08b800bebc67?q=80&w=800&auto=format&fit=crop',
+        platforms: ['PS5', 'PS4'],
+        features: ['4 Jeux récents au choix', 'Derniers patchs & DLCs installés', 'Garantie atelier']
+      });
+    }
+  };
+
+  const handleSaveDeal = (e) => {
+    e.preventDefault();
+    if (!onUpdateFlashDeals) return;
+    const updated = editingDeal === 'NEW' 
+      ? [dealFormData, ...flashDeals] 
+      : flashDeals.map(d => d.id === dealFormData.id ? dealFormData : d);
+    onUpdateFlashDeals(updated);
+    setEditingDeal(null);
+  };
+
+  const handleDeleteDeal = (id) => {
+    if (window.confirm('Voulez-vous vraiment supprimer cette offre flash ?')) {
+      if (!onUpdateFlashDeals) return;
+      const updated = flashDeals.filter(d => d.id !== id);
+      onUpdateFlashDeals(updated);
+    }
+  };
+
 
 
   // Lock body scroll when admin modal is open
@@ -777,6 +834,16 @@ export default function AdminDashboard({
           >
             <Gamepad2 className="w-4 h-4" />
             <span>Jeux ({games.length})</span>
+          </button>
+
+          <button
+            onClick={() => { setActiveTab('deals'); setEditingDeal(null); }}
+            className={`px-4 py-3 rounded-t-xl flex items-center gap-2 transition-all shrink-0 ${
+              activeTab === 'deals' ? 'bg-[#090d16] text-rose-400 border-t-2 border-rose-400' : 'text-slate-400 hover:text-white'
+            }`}
+          >
+            <Flame className="w-4 h-4 text-rose-500" />
+            <span>Offres Flash ({flashDeals.length})</span>
           </button>
 
           <button
@@ -1255,6 +1322,108 @@ export default function AdminDashboard({
                         ))}
                       </tbody>
                     </table>
+                  </div>
+                </div>
+              )}
+            </div>
+          )}
+
+          {/* TAB: FLASH DEALS & PROMOTIONS MANAGEMENT */}
+          {activeTab === 'deals' && (
+            <div>
+              {editingDeal ? (
+                <form onSubmit={handleSaveDeal} className="glass-panel p-6 rounded-2xl border-rose-500/30 space-y-6 animate-fadeIn">
+                  <div className="flex items-center justify-between border-b border-slate-800 pb-4">
+                    <h3 className="font-heading font-bold text-lg text-white">
+                      {editingDeal === 'NEW' ? '🔥 Créer une Nouvelle Offre Flash' : `✏️ Modifier : ${dealFormData.title}`}
+                    </h3>
+                    <button type="button" onClick={() => setEditingDeal(null)} className="text-xs text-slate-400 hover:text-white underline">Annuler</button>
+                  </div>
+
+                  <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+                    <div>
+                      <label className="block text-xs font-bold text-slate-300 mb-1">Titre de l'Offre *</label>
+                      <input type="text" required value={dealFormData.title} onChange={(e) => setDealFormData({ ...dealFormData, title: e.target.value })} className="w-full p-2.5 rounded-xl bg-slate-900 border border-slate-700 text-white text-sm" placeholder="Ex: Pack Promo Flash 4 Jeux PS4/PS5" />
+                    </div>
+
+                    <div>
+                      <label className="block text-xs font-bold text-slate-300 mb-1">Badge Promotionnel *</label>
+                      <input type="text" required value={dealFormData.badge} onChange={(e) => setDealFormData({ ...dealFormData, badge: e.target.value })} className="w-full p-2.5 rounded-xl bg-slate-900 border border-slate-700 text-white text-sm" placeholder="Ex: 🔥 PROMO FLASH (4 JEUX)" />
+                    </div>
+                  </div>
+
+                  <div>
+                    <label className="block text-xs font-bold text-slate-300 mb-1">Sous-titre / Description de l'Offre *</label>
+                    <input type="text" required value={dealFormData.subtitle} onChange={(e) => setDealFormData({ ...dealFormData, subtitle: e.target.value })} className="w-full p-2.5 rounded-xl bg-slate-900 border border-slate-700 text-white text-sm" placeholder="Ex: 4 Blockbusters récents au choix (FC 25, GTA V, etc.)" />
+                  </div>
+
+                  <div className="grid grid-cols-1 sm:grid-cols-3 gap-4">
+                    <div>
+                      <label className="block text-xs font-bold text-slate-300 mb-1">Prix Promo ($ USD) *</label>
+                      <input type="number" required value={dealFormData.promoPrice} onChange={(e) => setDealFormData({ ...dealFormData, promoPrice: parseFloat(e.target.value) || 0 })} className="w-full p-2.5 rounded-xl bg-slate-900 border border-slate-700 text-white text-sm font-mono font-bold text-emerald-400" />
+                    </div>
+
+                    <div>
+                      <label className="block text-xs font-bold text-slate-300 mb-1">Prix Normal ($ USD)</label>
+                      <input type="number" value={dealFormData.originalPrice} onChange={(e) => setDealFormData({ ...dealFormData, originalPrice: parseFloat(e.target.value) || 0 })} className="w-full p-2.5 rounded-xl bg-slate-900 border border-slate-700 text-white text-sm font-mono" />
+                    </div>
+
+                    <div>
+                      <label className="block text-xs font-bold text-slate-300 mb-1">Pourcentage Réduction (%)</label>
+                      <input type="number" value={dealFormData.discountPercentage} onChange={(e) => setDealFormData({ ...dealFormData, discountPercentage: parseInt(e.target.value) || 0 })} className="w-full p-2.5 rounded-xl bg-slate-900 border border-slate-700 text-white text-sm font-mono" />
+                    </div>
+                  </div>
+
+                  <div>
+                    <label className="block text-xs font-bold text-slate-300 mb-1">Lien Image Bannière Offre *</label>
+                    <input type="text" required value={dealFormData.image} onChange={(e) => setDealFormData({ ...dealFormData, image: e.target.value })} className="w-full p-2.5 rounded-xl bg-slate-900 border border-slate-700 text-white text-sm" />
+                    {dealFormData.image && (
+                      <img src={dealFormData.image} alt="Aperçu" className="mt-2 h-32 w-full object-cover rounded-xl border border-white/10" />
+                    )}
+                  </div>
+
+                  <button type="submit" className="py-3 px-6 rounded-xl btn-cyber-primary font-bold text-sm flex items-center gap-2">
+                    <Save className="w-4 h-4" /> <span>Sauvegarder l'Offre Flash</span>
+                  </button>
+                </form>
+              ) : (
+                <div className="space-y-4">
+                  <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-3">
+                    <div>
+                      <h3 className="font-heading font-bold text-lg text-white">Offres Flash & Packs Promotionnels ({flashDeals.length})</h3>
+                      <p className="text-xs text-slate-400">Gérez les réductions, les prix promo et les avantages affichés sur le site.</p>
+                    </div>
+                    <button onClick={() => handleOpenDealForm()} className="w-full sm:w-auto py-2.5 px-4 rounded-xl btn-cyber-primary text-xs font-bold flex items-center justify-center gap-2 shrink-0">
+                      <Plus className="w-4 h-4" /> <span>Créer une offre flash</span>
+                    </button>
+                  </div>
+
+                  <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
+                    {flashDeals.map((d) => (
+                      <div key={d.id} className="glass-panel rounded-2xl overflow-hidden border-slate-800 flex flex-col justify-between group">
+                        <div className="relative h-36 overflow-hidden">
+                          <img src={d.image} alt={d.title} className="w-full h-full object-cover group-hover:scale-105 transition-transform" />
+                          <div className="absolute inset-0 bg-gradient-to-t from-black/80 to-transparent" />
+                          <span className="absolute top-2 left-2 px-2 py-0.5 rounded bg-rose-600 text-white text-[10px] font-bold">-{d.discountPercentage}%</span>
+                          <span className="absolute bottom-2 left-2 text-white font-bold text-sm drop-shadow">{d.title}</span>
+                        </div>
+                        <div className="p-4 space-y-2">
+                          <div className="flex items-baseline justify-between text-xs">
+                            <span className="text-slate-400 line-through font-mono">{d.originalPrice} $</span>
+                            <span className="font-black text-emerald-400 text-base font-mono">{d.promoPrice} $</span>
+                          </div>
+                          <p className="text-xs text-slate-300 line-clamp-2">{d.subtitle}</p>
+                          <div className="flex items-center justify-end gap-2 pt-2 border-t border-slate-800">
+                            <button onClick={() => handleOpenDealForm(d)} className="px-3 py-1.5 rounded-lg bg-cyan-500/20 text-cyan-300 hover:bg-cyan-500 hover:text-black font-bold text-xs flex items-center gap-1">
+                              <Edit3 className="w-3.5 h-3.5" /> <span>Modifier</span>
+                            </button>
+                            <button onClick={() => handleDeleteDeal(d.id)} className="px-3 py-1.5 rounded-lg bg-rose-500/20 text-rose-400 hover:bg-rose-500 hover:text-white font-bold text-xs flex items-center gap-1">
+                              <Trash2 className="w-3.5 h-3.5" /> <span>Supprimer</span>
+                            </button>
+                          </div>
+                        </div>
+                      </div>
+                    ))}
                   </div>
                 </div>
               )}
