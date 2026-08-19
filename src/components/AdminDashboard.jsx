@@ -786,9 +786,9 @@ export default function AdminDashboard({
   }, []);
 
   return (
-    <div className="fixed inset-0 z-50 flex items-end sm:items-center justify-center p-0 sm:p-4 md:p-6 overflow-y-auto bg-black/85 backdrop-blur-2xl animate-fadeIn">
+    <div className="fixed inset-0 z-50 flex items-end sm:items-center justify-center p-0 sm:p-4 md:p-6 bg-black/85 backdrop-blur-2xl animate-fadeIn">
       
-      <div className="relative w-full max-w-6xl bg-[#090d16] border-t sm:border border-purple-500/40 rounded-t-3xl sm:rounded-3xl overflow-hidden shadow-[0_0_50px_rgba(157,0,255,0.25)] my-auto max-h-[94vh] sm:max-h-[92vh] flex flex-col">
+      <div className="relative w-full max-w-6xl h-[92vh] sm:h-[88vh] bg-[#090d16] border-t sm:border border-purple-500/40 rounded-t-3xl sm:rounded-3xl overflow-hidden shadow-[0_0_50px_rgba(157,0,255,0.25)] flex flex-col">
         
         {/* Header */}
         <div className="p-4 sm:p-6 bg-gradient-to-r from-purple-950/80 via-slate-900 to-cyan-950/80 border-b border-purple-500/30 flex items-center justify-between gap-3">
