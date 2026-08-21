@@ -7,10 +7,13 @@ import {
 const AVAILABLE_PLATFORMS = [
   'PS5', 
   'PS4', 
+  'PS3',
   'PC Gaming', 
   'Xbox Series X/S', 
   'Xbox One', 
+  'Xbox 360',
   'Nintendo Switch', 
+  'Rétrogaming',
   'Android / iOS'
 ];
 
