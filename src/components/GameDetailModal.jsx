@@ -1,8 +1,8 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useRef } from 'react';
 import { 
   X, Gamepad2, Star, HardDrive, Calendar, ShieldCheck, Heart, 
   MessageSquare, CheckCircle2, Play, Sparkles, Cpu, Monitor, 
-  Zap, Layers, Camera, ChevronLeft, ChevronRight 
+  Zap, Layers, Camera, ChevronLeft, ChevronRight, Upload, FolderOpen, Save, Edit3, Image, Check, Search 
 } from 'lucide-react';
 import { getDefaultPcRequirements } from '../data/initialData.js';
 
@@ -16,7 +16,8 @@ export default function GameDetailModal({
   onSelectGame,
   onAddToCart,
   isInCart = false,
-  initialTab = 'overview'
+  initialTab = 'overview',
+  onUpdateGame
 }) {
   const [selectedConsole, setSelectedConsole] = useState(
     Array.isArray(game?.platforms) ? game.platforms[0] : (game?.platforms || 'PS5')
@@ -25,6 +26,57 @@ export default function GameDetailModal({
   const [selectedPcTier, setSelectedPcTier] = useState('recommended'); // 'minimum' | 'recommended' | 'ultra'
   const [previewImage, setPreviewImage] = useState(null);
   const [previewIndex, setPreviewIndex] = useState(0);
+
+  // Quick Cover Editing state
+  const [isEditingCover, setIsEditingCover] = useState(false);
+  const [tempCover, setTempCover] = useState(game?.cover || '');
+  const [isUploading, setIsUploading] = useState(false);
+  const fileInputRef = useRef(null);
+
+  // Sync tempCover when game changes
+  useEffect(() => {
+    if (game?.cover) setTempCover(game.cover);
+  }, [game?.cover]);
+
+  const handleFileUpload = (e) => {
+    const file = e.target.files?.[0];
+    if (!file) return;
+
+    setIsUploading(true);
+    const reader = new FileReader();
+    reader.onload = (event) => {
+      const img = new window.Image();
+      img.onload = () => {
+        const canvas = document.createElement('canvas');
+        const MAX_WIDTH = 800;
+        const scaleSize = MAX_WIDTH / img.width;
+        
+        if (img.width > MAX_WIDTH) {
+          canvas.width = MAX_WIDTH;
+          canvas.height = img.height * scaleSize;
+        } else {
+          canvas.width = img.width;
+          canvas.height = img.height;
+        }
+        
+        const ctx = canvas.getContext('2d');
+        ctx.drawImage(img, 0, 0, canvas.width, canvas.height);
+        const compressedBase64 = canvas.toDataURL('image/jpeg', 0.85);
+        setTempCover(compressedBase64);
+        setIsUploading(false);
+      };
+      img.src = event.target.result;
+    };
+    reader.readAsDataURL(file);
+  };
+
+  const handleSaveCover = () => {
+    if (!tempCover || !tempCover.trim()) return;
+    if (onUpdateGame) {
+      onUpdateGame({ ...game, cover: tempCover });
+    }
+    setIsEditingCover(false);
+  };
 
   // Sync tab when initialTab prop changes
   useEffect(() => {
@@ -137,7 +189,7 @@ export default function GameDetailModal({
             {/* Header Content Overlay */}
             <div className="absolute bottom-3 left-3 right-3 sm:bottom-6 sm:left-6 sm:right-6 flex items-end gap-3 sm:gap-6 z-10">
               
-              <div className="relative w-20 sm:w-36 aspect-[3/4] rounded-xl sm:rounded-2xl overflow-hidden border-2 border-cyan-400/50 shadow-2xl shrink-0 bg-slate-950">
+              <div className="relative w-20 sm:w-36 aspect-[3/4] rounded-xl sm:rounded-2xl overflow-hidden border-2 border-cyan-400/50 shadow-2xl shrink-0 bg-slate-950 group">
                 <div className="absolute top-0 left-0 right-0 z-10 py-0.5 px-1.5 bg-black/80 backdrop-blur text-cyan-300 font-heading font-black text-[7px] sm:text-[9px] uppercase tracking-wider flex items-center justify-between border-b border-white/10">
                   <span className="truncate">{game.platforms?.[0] || 'CONSOLE'}</span>
                   <span className="font-mono text-[7px] text-amber-300">★ {game.rating}</span>
@@ -151,6 +203,16 @@ export default function GameDetailModal({
                     e.target.src = "https://images.unsplash.com/photo-1550745165-9bc0b252726f?q=80&w=600&auto=format&fit=crop";
                   }}
                 />
+                {/* Touch/Hover Edit Pochette Button */}
+                <button
+                  type="button"
+                  onClick={() => setIsEditingCover(true)}
+                  className="absolute inset-0 bg-black/75 backdrop-blur-sm opacity-0 group-hover:opacity-100 transition-opacity flex flex-col items-center justify-center p-2 text-cyan-300 hover:text-white font-bold text-[10px] sm:text-xs gap-1 z-20"
+                  title="Changer la pochette de ce jeu"
+                >
+                  <Camera className="w-5 h-5 text-cyan-400" />
+                  <span className="text-center leading-tight">Changer pochette</span>
+                </button>
               </div>
 
               <div className="flex-1 min-w-0">
@@ -166,6 +228,15 @@ export default function GameDetailModal({
                       💻 Config PC Disponible
                     </span>
                   )}
+                  <button
+                    type="button"
+                    onClick={() => setIsEditingCover(true)}
+                    className="px-2.5 py-0.5 sm:px-3 sm:py-1 rounded-full text-[10px] sm:text-xs font-cyber font-bold tracking-wider bg-slate-800/90 text-cyan-300 hover:bg-cyan-500 hover:text-black border border-cyan-500/40 flex items-center gap-1 transition-all shadow"
+                    title="Remplacer la jaquette par une photo de votre galerie"
+                  >
+                    <Camera className="w-3 h-3" />
+                    <span>Éditer Pochette</span>
+                  </button>
                 </div>
 
                 <h1 className="text-lg sm:text-3xl md:text-4xl font-black text-white font-heading leading-tight truncate sm:line-clamp-2">
@@ -890,6 +961,125 @@ export default function GameDetailModal({
 
           <div className="absolute bottom-4 left-4 right-4 sm:bottom-6 sm:left-6 sm:right-6 max-w-md mx-auto flex items-center justify-center p-2 rounded-xl bg-black/80 backdrop-blur border border-white/10 text-slate-300 text-xs" onClick={(e) => e.stopPropagation()}>
             <span>Cliquez n'importe où pour fermer ou utilisez les flèches</span>
+          </div>
+        </div>
+      )}
+
+      {/* QUICK COVER REPLACEMENT MODAL */}
+      {isEditingCover && (
+        <div 
+          className="fixed inset-0 z-[70] bg-black/90 backdrop-blur-xl flex items-center justify-center p-3 sm:p-6 animate-fadeIn"
+          onClick={() => setIsEditingCover(false)}
+        >
+          <div 
+            className="w-full max-w-lg glass-panel p-5 sm:p-6 rounded-2xl border-cyan-500/40 shadow-2xl space-y-4 bg-slate-950/95"
+            onClick={(e) => e.stopPropagation()}
+          >
+            <div className="flex items-center justify-between border-b border-slate-800 pb-3">
+              <div className="flex items-center gap-2">
+                <Camera className="w-5 h-5 text-cyan-400" />
+                <h3 className="font-heading font-bold text-base sm:text-lg text-white">
+                  Remplacer la Pochette de {game.title}
+                </h3>
+              </div>
+              <button 
+                type="button" 
+                onClick={() => setIsEditingCover(false)} 
+                className="p-1 rounded-lg text-slate-400 hover:text-white"
+              >
+                <X className="w-5 h-5" />
+              </button>
+            </div>
+
+            {/* Live Preview */}
+            <div className="flex flex-col sm:flex-row items-center gap-4 p-3 rounded-xl bg-slate-900/80 border border-slate-800">
+              <div className="relative w-24 sm:w-28 aspect-[3/4] rounded-xl overflow-hidden border border-cyan-500/50 shadow shrink-0 bg-black">
+                <img
+                  src={tempCover}
+                  alt="Aperçu de la nouvelle pochette"
+                  className="w-full h-full object-cover"
+                  onError={(e) => {
+                    e.target.onerror = null;
+                    e.target.src = "https://images.unsplash.com/photo-1550745165-9bc0b252726f?q=80&w=600&auto=format&fit=crop";
+                  }}
+                />
+                {isUploading && (
+                  <div className="absolute inset-0 bg-black/80 flex items-center justify-center text-cyan-400 text-xs font-bold">
+                    Optimisation...
+                  </div>
+                )}
+              </div>
+              <div className="space-y-1.5 text-center sm:text-left flex-1">
+                <div className="text-xs font-bold text-white">Format Recommandé : 3:4 (Affiche Verticale)</div>
+                <p className="text-[11px] text-slate-400">
+                  Choisissez une photo dans votre téléphone/PC ou recherchez directement la jaquette officielle sur Google.
+                </p>
+              </div>
+            </div>
+
+            {/* Upload from Gallery / PC & Google Search Buttons */}
+            <div className="grid grid-cols-1 sm:grid-cols-2 gap-2">
+              <input
+                ref={fileInputRef}
+                type="file"
+                accept="image/*"
+                onChange={handleFileUpload}
+                className="hidden"
+              />
+              <button
+                type="button"
+                onClick={() => fileInputRef.current?.click()}
+                disabled={isUploading}
+                className="w-full py-2.5 px-3 rounded-xl bg-cyan-500/20 hover:bg-cyan-500/30 text-cyan-300 border border-cyan-500/40 text-xs font-bold flex items-center justify-center gap-2 transition-all active:scale-95"
+              >
+                <FolderOpen className="w-4 h-4" />
+                <span>{isUploading ? 'Traitement photo...' : '📁 Galerie / PC / Téléphone'}</span>
+              </button>
+
+              <button
+                type="button"
+                onClick={() => {
+                  const query = encodeURIComponent(`${game.title} cover jaquette`);
+                  window.open(`https://www.google.com/search?tbm=isch&q=${query}`, '_blank');
+                }}
+                className="w-full py-2.5 px-3 rounded-xl bg-blue-500/20 hover:bg-blue-500/30 text-blue-300 border border-blue-500/40 text-xs font-bold flex items-center justify-center gap-2 transition-all"
+              >
+                <Search className="w-4 h-4" />
+                <span>🔍 Trouver sur Google Images</span>
+              </button>
+            </div>
+
+            {/* Manual URL Input */}
+            <div>
+              <label className="block text-xs font-bold text-slate-300 mb-1">Ou collez le lien direct de l'image (URL) :</label>
+              <input
+                type="text"
+                value={tempCover}
+                onChange={(e) => setTempCover(e.target.value)}
+                placeholder="https://images... / image.jpg"
+                className="w-full p-2.5 rounded-xl bg-slate-900 border border-slate-700 text-white text-xs font-mono placeholder:font-sans placeholder:text-slate-500"
+              />
+            </div>
+
+            {/* Actions */}
+            <div className="flex items-center justify-end gap-2 pt-2 border-t border-slate-800">
+              <button
+                type="button"
+                onClick={() => setIsEditingCover(false)}
+                className="px-4 py-2 rounded-xl text-slate-400 hover:text-white text-xs font-bold"
+              >
+                Annuler
+              </button>
+              <button
+                type="button"
+                onClick={handleSaveCover}
+                disabled={!tempCover || isUploading}
+                className="py-2.5 px-5 rounded-xl btn-cyber-primary text-xs font-bold flex items-center gap-1.5 shadow-lg active:scale-95 transition-all"
+              >
+                <Save className="w-4 h-4" />
+                <span>💾 Enregistrer la Pochette</span>
+              </button>
+            </div>
           </div>
         </div>
       )}

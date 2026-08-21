@@ -235,6 +235,15 @@ export default function App() {
     saveGames(newGames);
   };
 
+  const handleUpdateSingleGame = (updatedGame) => {
+    const updatedList = games.map(g => g.id === updatedGame.id ? updatedGame : g);
+    setGames(updatedList);
+    saveGames(updatedList);
+    if (selectedGame && selectedGame.id === updatedGame.id) {
+      setSelectedGame(updatedGame);
+    }
+  };
+
   const handleUpdateConsoles = (newConsoles) => {
     setConsoles(newConsoles);
     saveConsoles(newConsoles);
@@ -434,6 +443,7 @@ export default function App() {
           onAddToCart={handleAddToCart}
           isInCart={cart.some(g => g.id === selectedGame.id)}
           initialTab={selectedGameTab}
+          onUpdateGame={handleUpdateSingleGame}
         />
       )}
 
