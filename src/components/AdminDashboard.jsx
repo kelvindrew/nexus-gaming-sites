@@ -653,6 +653,7 @@ export default function AdminDashboard({
 
   // Config form state
   const [configForm, setConfigForm] = useState(config || {});
+  const [customPlatformInput, setCustomPlatformInput] = useState('');
 
   // Save Config
   const handleSaveConfig = (e) => {
@@ -679,6 +680,24 @@ export default function AdminDashboard({
     } else {
       setSlideFormData({ ...slideFormData, platforms: [...current, plat] });
     }
+  };
+
+  // Add custom platform on the fly
+  const handleAddCustomPlatform = (targetForm = 'game') => {
+    if (!customPlatformInput || !customPlatformInput.trim()) return;
+    const newPlat = customPlatformInput.trim();
+    if (targetForm === 'game') {
+      const current = Array.isArray(gameFormData.platforms) ? gameFormData.platforms : [];
+      if (!current.includes(newPlat)) {
+        setGameFormData({ ...gameFormData, platforms: [...current, newPlat] });
+      }
+    } else {
+      const current = Array.isArray(slideFormData.platforms) ? slideFormData.platforms : [];
+      if (!current.includes(newPlat)) {
+        setSlideFormData({ ...slideFormData, platforms: [...current, newPlat] });
+      }
+    }
+    setCustomPlatformInput('');
   };
 
   // --- SLIDE HANDLERS ---
@@ -1176,6 +1195,25 @@ export default function AdminDashboard({
                         );
                       })}
                     </div>
+
+                    {/* Add Custom Platform Row */}
+                    <div className="flex items-center gap-2 mt-2.5 max-w-sm">
+                      <input
+                        type="text"
+                        value={customPlatformInput}
+                        onChange={(e) => setCustomPlatformInput(e.target.value)}
+                        placeholder="Autre console (ex: PSP, PS2)..."
+                        className="flex-1 p-2 rounded-xl bg-slate-900 border border-slate-700 text-white text-xs font-mono placeholder:font-sans placeholder:text-slate-500"
+                        onKeyDown={(e) => { if (e.key === 'Enter') { e.preventDefault(); handleAddCustomPlatform('slide'); } }}
+                      />
+                      <button
+                        type="button"
+                        onClick={() => handleAddCustomPlatform('slide')}
+                        className="px-3 py-2 rounded-xl bg-cyan-500/20 hover:bg-cyan-500/40 text-cyan-300 border border-cyan-500/30 text-xs font-bold shrink-0 active:scale-95 transition-all"
+                      >
+                        + Ajouter
+                      </button>
+                    </div>
                   </div>
 
                   {/* STEAM 16:9 4K BANNER IMPORTER (SANS CLÉ) */}
@@ -1392,6 +1430,25 @@ export default function AdminDashboard({
                           </button>
                         );
                       })}
+                    </div>
+
+                    {/* Add Custom Platform Row */}
+                    <div className="flex items-center gap-2 mt-2.5 max-w-sm">
+                      <input
+                        type="text"
+                        value={customPlatformInput}
+                        onChange={(e) => setCustomPlatformInput(e.target.value)}
+                        placeholder="Autre console (ex: PSP, PS2)..."
+                        className="flex-1 p-2 rounded-xl bg-slate-900 border border-slate-700 text-white text-xs font-mono placeholder:font-sans placeholder:text-slate-500"
+                        onKeyDown={(e) => { if (e.key === 'Enter') { e.preventDefault(); handleAddCustomPlatform('game'); } }}
+                      />
+                      <button
+                        type="button"
+                        onClick={() => handleAddCustomPlatform('game')}
+                        className="px-3 py-2 rounded-xl bg-purple-500/20 hover:bg-purple-500/40 text-purple-300 border border-purple-500/30 text-xs font-bold shrink-0 active:scale-95 transition-all"
+                      >
+                        + Ajouter
+                      </button>
                     </div>
                   </div>
 
